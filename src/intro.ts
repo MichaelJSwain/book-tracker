@@ -20,8 +20,8 @@ type Error = {
     message: String
 }
 
-const STORAGE_KEY: String = "book_list";
-console.log(STORAGE_KEY);
+const BOOKS_KEY: string = "book_list";
+console.log(BOOKS_KEY);
 
 export const createBook = (title: String, author: String, status: String, imageUrl: String | undefined, number_of_pages: Number): Book | Error => {
     // simulate error
@@ -48,3 +48,12 @@ export const createBook = (title: String, author: String, status: String, imageU
     
     return newBook;
 };
+
+export const fetchBooks = (): Book[] => {
+    const books = localStorage.getItem(BOOKS_KEY);
+    if (books) {
+        const parsed = JSON.parse(books);
+        return parsed;
+    }
+    return [];
+}

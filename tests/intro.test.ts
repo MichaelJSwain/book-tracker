@@ -1,5 +1,5 @@
 import { describe, test, it, expect, beforeEach, vi } from "vitest";
-import {createBook, fetchBook, fetchBooks} from "../src/intro";
+import {createBook, deleteBook, fetchBook, fetchBooks} from "../src/intro";
 import { setupMockLocalStorage } from "./mocks/setupMockLocalStorage.ts";
 import { v4 as UUID } from "uuid";
 
@@ -101,4 +101,47 @@ describe("fetch a single book", () => {
 
         expect(result).toEqual(noBooksFoundResponse);
     });
+});
+
+describe("delete a book", () => {
+    beforeEach(() => {
+        setupMockLocalStorage();
+    });
+
+    it("should delete a book and return success message if book is successfully deleted", () => {
+        const successMessage = {message: "Successfully deleted book"};
+        const bookId = UUID();
+        const books = [{id: bookId, title: 'book 1', author: 'dave smith', status: 'reading', imageUrl: null, number_of_pages: 100},
+            {id: UUID(), title: 'book 2', author: 'sarah simon', status: 'reading', imageUrl: null, number_of_pages: 100}
+        ];
+
+        localStorage.setItem('book_list', JSON.stringify(books));
+
+        const result = deleteBook(bookId);
+
+        expect(result).toEqual(successMessage);
+    });
+
+    it("should return error message if unable to delete book from localStorage", () => {
+        const failureMessage = {message: "Sorry, unable to delete book"};
+        const bookId = UUID();
+        const books = [{id: UUID(), title: 'book 1', author: 'dave smith', status: 'reading', imageUrl: null, number_of_pages: 100},
+            {id: UUID(), title: 'book 2', author: 'sarah simon', status: 'reading', imageUrl: null, number_of_pages: 100}
+        ];
+
+        localStorage.setItem('book_list', JSON.stringify(books));
+
+        const result = deleteBook(bookId);
+
+        expect(result).toEqual(failureMessage);
+    });
+
+     it("should return error message if unable no items in localStorage", () => {
+            const failureMessage = {message: "Sorry, no books in localStorage"};
+            const bookId = UUID();
+
+            const result = deleteBook(bookId);
+
+            expect(result).toEqual(failureMessage);
+     });
 });

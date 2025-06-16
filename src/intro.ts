@@ -67,3 +67,23 @@ export const fetchBook = (id: UUIDTypes) => {
 
     return { message: "Sorry, couldn't find any book" };
 }
+
+export const deleteBook = (id: UUIDTypes): { message: String } => {
+    const books = localStorage.getItem(BOOKS_KEY);
+
+    if (books) {
+        const parsed = JSON.parse(books);
+        const filtered = parsed.filter((book: Book) => book.id !== id)
+        
+        if (parsed.length !== filtered.length) {
+            return { message: "Successfully deleted book" }
+        } else {
+            return {message: "Sorry, unable to delete book"}
+        }
+    } else {
+        return {message: "Sorry, no books in localStorage"};
+    }
+
+
+    
+}

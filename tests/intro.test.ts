@@ -1,5 +1,5 @@
 import { describe, test, it, expect, beforeEach, vi } from "vitest";
-import {createBook, deleteBook, fetchBook, fetchBooks} from "../src/intro";
+import {createBook, deleteBook, fetchBook, fetchBooks, updateBook} from "../src/intro";
 import { setupMockLocalStorage } from "./mocks/setupMockLocalStorage.ts";
 import { v4 as UUID } from "uuid";
 
@@ -144,4 +144,52 @@ describe("delete a book", () => {
 
             expect(result).toEqual(failureMessage);
      });
+});
+
+describe("update a book", () => {
+    beforeEach(() => {
+        setupMockLocalStorage();
+    });
+
+    it("should update the book if found in localStorage and return the updated book + success message", () => {
+        const bookId = UUID();
+        const books = [{id: bookId, title: 'book 1', author: 'dave smith', status: 'reading', imageUrl: null, number_of_pages: 100},
+            {id: UUID(), title: 'book 2', author: 'sarah simon', status: 'reading', imageUrl: null, number_of_pages: 100}
+        ];
+
+        localStorage.setItem('book_list', JSON.stringify(books));
+
+        const updatedBook = {id: bookId, title: 'book 2', author: 'darren smith', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0};
+        const success = {data: updatedBook, message: "Successfully updated book"};
+
+        const result = updateBook(updatedBook);
+        
+        expect(result).toEqual(success);
+    });
+
+    it("should return error message if can't find book in localStorage", () => {
+        const bookId = UUID();
+        const books = [{id: UUID(), title: 'book 1', author: 'dave smith', status: 'reading', imageUrl: null, number_of_pages: 100},
+            {id: UUID(), title: 'book 2', author: 'sarah simon', status: 'reading', imageUrl: null, number_of_pages: 100}
+        ];
+
+        localStorage.setItem('book_list', JSON.stringify(books));
+
+        const updatedBook = {id: bookId, title: 'book 2', author: 'darren smith', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0};
+        const error = {data: null, message: "Unable to find book"};
+
+        const result = updateBook(updatedBook);
+        
+        expect(result).toEqual(error);
+    });
+
+    it("should return error message if nothing in localStorage", () => {
+        const bookId = UUID();
+        const updatedBook = {id: bookId, title: 'book 2', author: 'darren smith', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0};
+        const error = {data: null, message: "Nothing in localStorage"};
+
+        const result = updateBook(updatedBook);
+        
+        expect(result).toEqual(error);
+    });
 });

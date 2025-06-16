@@ -83,7 +83,34 @@ export const deleteBook = (id: UUIDTypes): { message: String } => {
     } else {
         return {message: "Sorry, no books in localStorage"};
     }
+}
 
+export const updateBook = (updatedBook: Book): {data: Book | null, message: String} => {
+    const books = localStorage.getItem(BOOKS_KEY);
 
-    
+    if (books) {
+        const parsed = JSON.parse(books);
+
+        const foundBook: Book = parsed.find((book: Book) => book.id === updatedBook.id);
+
+        if (foundBook) {
+            const updated = {
+                ...foundBook,
+                ...updatedBook
+            };
+
+            // save to localStorage
+            // ...
+
+            return {data: updated, message: "Successfully updated book"}
+        } else {
+            return {data: null, message: "Unable to find book"}
+        }
+ 
+
+ 
+        
+    }
+
+    return {data: null, message: "Nothing in localStorage"}
 }

@@ -1,6 +1,7 @@
 import { describe, test, it, expect, beforeEach, vi } from "vitest";
-import {createBook, fetchBooks} from "../src/intro";
+import {createBook, fetchBook, fetchBooks} from "../src/intro";
 import { setupMockLocalStorage } from "./mocks/setupMockLocalStorage.ts";
+import { v4 as UUID } from "uuid";
 
 describe("create book", () => {
     it("should return a book object if the title, author and status are passed as args", () => {
@@ -11,8 +12,6 @@ describe("create book", () => {
 
         // act
         const result = createBook(title, author, status);
-
-        console.log("book result = ", result);
         
         // assert
         expect(result).toBeTypeOf("object");
@@ -34,7 +33,6 @@ describe("create book", () => {
 describe("fetch books", () => {
     beforeEach(() => {
         setupMockLocalStorage();
-        console.log(localStorage);
     });
 
     it("returns an empty array if no books are stored", () => {
@@ -46,9 +44,8 @@ describe("fetch books", () => {
     });
     it('returns array of Books if books are found in localStorage', () => {
         // arrange
-        const books = [{title: 'book 1', author: 'dave smith', status: 'reading'},
-            {title: 'book 2', author: 'sarah simon', status: 'reading'},
-            {title: 'book 2', author: 'sarah simon', status: 'reading'}
+        const books = [{id: 1, title: 'book 1', author: 'dave smith', status: 'reading'},
+            {id: 2, title: 'book 2', author: 'sarah simon', status: 'reading'}
         ];
         localStorage.setItem('book_list', JSON.stringify(books));
 
@@ -57,5 +54,51 @@ describe("fetch books", () => {
 
         // assert
         expect(result).toEqual(books);
+    });
+});
+
+describe("fetch a single book", () => {
+    beforeEach(() => {
+        setupMockLocalStorage();
+    });
+
+    it("returns a book if the book is found in localStorage", () => {
+        // arrange
+        const bookId = UUID();
+        const books = [{id: bookId, title: 'book 1', author: 'dave smith', status: 'reading', imageUrl: null, number_of_pages: 100},
+            {id: UUID(), title: 'book 2', author: 'sarah simon', status: 'reading', imageUrl: null, number_of_pages: 100}
+        ];
+        localStorage.setItem('book_list', JSON.stringify(books));
+
+        // act
+        const result = fetchBook(bookId);
+
+        // assert
+        expect(result).toEqual(books[0]);
+    });
+
+    it("should return an object with a message if the book is not found in localStorage", () => {
+        // arrange
+        const noBookFoundResponse = {message: "Sorry, couldn't find book"};
+        const bookId = UUID();
+        const books = [{id: UUID(), title: 'book 1', author: 'dave smith', status: 'reading', imageUrl: null, number_of_pages: 100},
+            {id: UUID(), title: 'book 2', author: 'sarah simon', status: 'reading', imageUrl: null, number_of_pages: 100}
+        ];
+        localStorage.setItem('book_list', JSON.stringify(books));
+
+        // act
+        const result = fetchBook(bookId);
+
+        // assert
+        expect(result).toEqual(noBookFoundResponse);
+    });
+
+    it("should return an object with a message if there are no books in localStorage", () => {
+        const noBooksFoundResponse = {message: "Sorry, couldn't find any book"};
+        const bookId = UUID();
+
+        const result = fetchBook(bookId);
+
+        expect(result).toEqual(noBooksFoundResponse);
     });
 });

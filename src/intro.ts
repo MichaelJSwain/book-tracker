@@ -21,7 +21,6 @@ type Error = {
 }
 
 const BOOKS_KEY: string = "book_list";
-console.log(BOOKS_KEY);
 
 export const createBook = (title: String, author: String, status: String, imageUrl: String | undefined, number_of_pages: Number): Book | Error => {
     // simulate error
@@ -56,4 +55,15 @@ export const fetchBooks = (): Book[] => {
         return parsed;
     }
     return [];
+}
+
+export const fetchBook = (id: UUIDTypes) => {
+    const books = localStorage.getItem(BOOKS_KEY);
+    
+    if (books) {
+        const parsed = JSON.parse(books);
+        return parsed.find((book: Book) => book.id === id) || { message: "Sorry, couldn't find book" };
+    }
+
+    return { message: "Sorry, couldn't find any book" };
 }

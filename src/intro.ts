@@ -92,3 +92,16 @@ export const updateBook = (updatedBook: Book): {data: Book | null, message: Stri
         return {data: null, message: "Unable to find book"};
     }
 }
+
+export const saveBooks = (books: Book[]): {success: boolean, message: string} => {
+    if (Array.isArray(books)) {
+        try {
+            localStorage.setItem(BOOKS_KEY, JSON.stringify(books));
+            return { success: true, message: 'Books saved successfully.' };
+        } catch(error) {
+            return {success: false, message: "Failed to save books to localStorage."};
+        }
+    } else {
+        return {success: false, message: "Invalid input: expected an array of books."};
+    }
+}

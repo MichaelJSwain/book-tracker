@@ -1,4 +1,4 @@
-import { describe, test, it, expect, beforeEach, vi } from "vitest";
+import { describe, test, it, expect, beforeEach, vi, afterEach } from "vitest";
 import {createBook, deleteBook, fetchBook, fetchBooks, saveBooks, updateBook} from "../src/intro";
 import { setupMockLocalStorage } from "./mocks/setupMockLocalStorage.ts";
 import { v4 as UUID } from "uuid";
@@ -195,6 +195,14 @@ describe("update a book", () => {
 });
 
 describe("save books in localStorage", () => {
+    beforeEach(() => {
+        setupMockLocalStorage();
+    });
+
+    afterEach(() => {
+        vi.restoreAllMocks();
+    });
+
     it("should return success response object if the array of Book types were successfully saves to localStorage", () => {
         const books = [
             {id: UUID(), title: 'book 1', author: 'darren smith', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
@@ -219,18 +227,23 @@ describe("save books in localStorage", () => {
          expect(result).toEqual(failureResponse);
     });
 
-    // it("should return failure response object if unable to save array of Book types to localStorage", () => {
-    //     const books = [
-    //         {id: UUID(), title: 'throw error', author: 'darren smith', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
-    //         {id: UUID(), title: 'book 2', author: 'darren smith', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
-    //         {id: UUID(), title: 'book 3', author: 'darren smith', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
-    //         {id: UUID(), title: 'book 4', author: 'darren smith', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0}
-    //     ];
+    it("should return failure response object if unable to save array of Book types to localStorage", () => {
+        const books = [
+            {id: UUID(), title: 'throw error', author: 'darren smith', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'book 2', author: 'darren smith', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'book 3', author: 'darren smith', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'book 4', author: 'darren smith', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0}
+        ];
         
-    //     const failureResponse = {success: false, message: "Failed to save books to localStorage."};
+        vi.spyOn(localStorage, "setItem").mockImplementation(() => {
+            throw new Error("Mock failure");
+        });
 
-    //      const result = saveBooks(books);
+        const failureResponse = {success: false, message: "Failed to save books to localStorage."};
 
-    //      expect(result).toEqual(failureResponse);
-    // });
+         const result = saveBooks(books);
+
+         expect(result).toEqual(failureResponse);
+         
+    });
 });

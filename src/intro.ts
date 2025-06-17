@@ -45,6 +45,14 @@ export const createBook = (title: String, author: String, status: String, imageU
         read_count: 0
     }
     
+    const fetchedBooks = fetchBooks();
+    const updatedBooks = [
+        ...fetchedBooks,
+        newBook
+    ]
+    
+    saveBooks(updatedBooks);
+
     return newBook;
 };
 
@@ -62,12 +70,12 @@ export const fetchBook = (id: UUIDTypes) => {
     return fetchedBooks.find((book: Book) => book.id === id) || { message: "Sorry, couldn't find book" };
 }
 
-export const deleteBook = (id: UUIDTypes): { message: String } => {
-    const fetchedBooks = fetchBooks();
+export const deleteBook = (bookId: UUIDTypes): { message: String } => {
+    const books = fetchBooks();
+    const filtered = books.filter(book => book.id !== bookId);
+    saveBooks(filtered);
 
-    const filteredBooks = fetchedBooks.filter((book: Book) => book.id !== id);
-
-    if (fetchedBooks.length !== filteredBooks.length) {
+    if (books.length !== filtered.length) {
         return { message: "Successfully deleted book" }
     } else {
         return {message: "Sorry, unable to delete book"}
@@ -75,19 +83,12 @@ export const deleteBook = (id: UUIDTypes): { message: String } => {
 }
 
 export const updateBook = (updatedBook: Book): {data: Book | null, message: String} => {
-    const fetchedBooks = fetchBooks();
-    
-    const foundBook: Book | undefined = fetchedBooks.find((book: Book) => book.id === updatedBook.id);
-
-    if (foundBook) {
-        const updated = {
-            ...foundBook,
-            ...updatedBook
-        };
-
-        // save to localStorage
-        //...
-        return {data: updated, message: "Successfully updated book"}
+    const books = fetchBooks();
+    const index = books.findIndex(book => book.id === updatedBook.id);
+    if (index !== -1) {
+        books[index] = updatedBook;
+        saveBooks(books);
+        return {data: books[index], message: "Successfully updated book"}
     } else {
         return {data: null, message: "Unable to find book"};
     }

@@ -4,6 +4,10 @@ import { setupMockLocalStorage } from "./mocks/setupMockLocalStorage.ts";
 import { v4 as UUID } from "uuid";
 
 describe("create book", () => {
+    beforeEach(() => {
+        setupMockLocalStorage();
+    });
+
     it("should return a book object if the title, author and status are passed as args", () => {
         // arrange
         const title = "The great book";
@@ -236,7 +240,7 @@ describe("save books in localStorage", () => {
         ];
         
         vi.spyOn(localStorage, "setItem").mockImplementation(() => {
-            throw new Error("Mock failure");
+            throw new Error("Mock save books failure case");
         });
 
         const failureResponse = {success: false, message: "Failed to save books to localStorage."};

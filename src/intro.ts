@@ -58,59 +58,37 @@ export const fetchBooks = (): Book[] => {
 }
 
 export const fetchBook = (id: UUIDTypes) => {
-    const books = localStorage.getItem(BOOKS_KEY);
-    
-    if (books) {
-        const parsed = JSON.parse(books);
-        return parsed.find((book: Book) => book.id === id) || { message: "Sorry, couldn't find book" };
-    }
-
-    return { message: "Sorry, couldn't find any book" };
+    const fetchedBooks = fetchBooks();
+    return fetchedBooks.find((book: Book) => book.id === id) || { message: "Sorry, couldn't find book" };
 }
 
 export const deleteBook = (id: UUIDTypes): { message: String } => {
-    const books = localStorage.getItem(BOOKS_KEY);
+    const fetchedBooks = fetchBooks();
 
-    if (books) {
-        const parsed = JSON.parse(books);
-        const filtered = parsed.filter((book: Book) => book.id !== id)
-        
-        if (parsed.length !== filtered.length) {
-            return { message: "Successfully deleted book" }
-        } else {
-            return {message: "Sorry, unable to delete book"}
-        }
+    const filteredBooks = fetchedBooks.filter((book: Book) => book.id !== id);
+
+    if (fetchedBooks.length !== filteredBooks.length) {
+        return { message: "Successfully deleted book" }
     } else {
-        return {message: "Sorry, no books in localStorage"};
+        return {message: "Sorry, unable to delete book"}
     }
 }
 
 export const updateBook = (updatedBook: Book): {data: Book | null, message: String} => {
-    const books = localStorage.getItem(BOOKS_KEY);
+    const fetchedBooks = fetchBooks();
+    
+    const foundBook: Book | undefined = fetchedBooks.find((book: Book) => book.id === updatedBook.id);
 
-    if (books) {
-        const parsed = JSON.parse(books);
+    if (foundBook) {
+        const updated = {
+            ...foundBook,
+            ...updatedBook
+        };
 
-        const foundBook: Book = parsed.find((book: Book) => book.id === updatedBook.id);
-
-        if (foundBook) {
-            const updated = {
-                ...foundBook,
-                ...updatedBook
-            };
-
-            // save to localStorage
-            // ...
-
-            return {data: updated, message: "Successfully updated book"}
-        } else {
-            return {data: null, message: "Unable to find book"}
-        }
- 
-
- 
-        
+        // save to localStorage
+        //...
+        return {data: updated, message: "Successfully updated book"}
+    } else {
+        return {data: null, message: "Unable to find book"};
     }
-
-    return {data: null, message: "Nothing in localStorage"}
 }

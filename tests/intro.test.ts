@@ -94,7 +94,7 @@ describe("fetch a single book", () => {
     });
 
     it("should return an object with a message if there are no books in localStorage", () => {
-        const noBooksFoundResponse = {message: "Sorry, couldn't find any book"};
+        const noBooksFoundResponse = { message: "Sorry, couldn't find book" };
         const bookId = UUID();
 
         const result = fetchBook(bookId);
@@ -137,12 +137,12 @@ describe("delete a book", () => {
     });
 
      it("should return error message if unable no items in localStorage", () => {
-            const failureMessage = {message: "Sorry, no books in localStorage"};
-            const bookId = UUID();
+        const failureMessage = {message: "Sorry, unable to delete book"};
+        const bookId = UUID();
 
-            const result = deleteBook(bookId);
+        const result = deleteBook(bookId);
 
-            expect(result).toEqual(failureMessage);
+        expect(result).toEqual(failureMessage);
      });
 });
 
@@ -186,7 +186,7 @@ describe("update a book", () => {
     it("should return error message if nothing in localStorage", () => {
         const bookId = UUID();
         const updatedBook = {id: bookId, title: 'book 2', author: 'darren smith', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0};
-        const error = {data: null, message: "Nothing in localStorage"};
+        const error = {data: null, message: "Unable to find book"};
 
         const result = updateBook(updatedBook);
         

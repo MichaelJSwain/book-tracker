@@ -106,3 +106,8 @@ export const saveBooks = (books: Book[]): {success: boolean, message: string} =>
         return {success: false, message: "Invalid input: expected an array of books."};
     }
 }
+
+export const filterBooks = (books: Book[], searchString: string): Book[] => {
+    const filteredBooks = books.filter(book => (book.title.includes(searchString) || book.author.includes(searchString)));
+    return filteredBooks;
+}

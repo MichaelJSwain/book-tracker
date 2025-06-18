@@ -1,5 +1,5 @@
 import { describe, test, it, expect, beforeEach, vi, afterEach } from "vitest";
-import {createBook, deleteBook, fetchBook, fetchBooks, saveBooks, updateBook} from "../src/intro";
+import {createBook, deleteBook, fetchBook, fetchBooks, filterBooks, saveBooks, updateBook} from "../src/intro";
 import { setupMockLocalStorage } from "./mocks/setupMockLocalStorage.ts";
 import { v4 as UUID } from "uuid";
 
@@ -249,5 +249,39 @@ describe("save books in localStorage", () => {
 
          expect(result).toEqual(failureResponse);
          
+    });
+});
+
+describe("filter book list", () => {
+    it("should return an updated list of books where the title or author match the search string", () => {
+        const unfilteredList = [{id: UUID(), title: 'book 1', author: 'tim simon', status: 'reading', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'book 2', author: 'darren smith', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'book 3', author: 'sarah day', status: 'reading', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'book 4', author: 'beth darren', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'the book of darren', author: 'terry blah', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'book 6', author: 'cassie yu', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0}
+        ];
+        const searchString = "darren";
+        const filteredList = [unfilteredList[1], unfilteredList[3], unfilteredList[4]];
+
+        const result = filterBooks(unfilteredList, searchString);
+
+        expect(result).toEqual(filteredList);
+    });
+
+    it("should return an empty array if there are no book titles or authors in the list that match the search string", () => {
+        const unfilteredList = [{id: UUID(), title: 'book 1', author: 'tim simon', status: 'reading', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'book 2', author: 'darren smith', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'book 3', author: 'sarah day', status: 'reading', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'book 4', author: 'beth darren', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'the book of darren', author: 'terry blah', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'book 6', author: 'cassie yu', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0}
+        ];
+        const searchString = "the lord of the rings";
+        const emptyList = [];
+
+        const result = filterBooks(unfilteredList, searchString);
+
+        expect(result).toEqual(emptyList);
     });
 });

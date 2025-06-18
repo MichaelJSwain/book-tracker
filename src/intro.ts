@@ -111,3 +111,33 @@ export const filterBooks = (books: Book[], searchString: string): Book[] => {
     const filteredBooks = books.filter(book => (book.title.includes(searchString) || book.author.includes(searchString)));
     return filteredBooks;
 }
+
+export const sortBooks = (books: Book[], sortOption: string): Book[] => {
+    if (sortOption === "title") {
+        const sorted = books;
+        sorted.sort((a, b) => compareFn(a.title, b.title));
+        return sorted;
+    } else if (sortOption === "author") {
+        const sorted = books;
+        sorted.sort((a, b) => compareFn(a.author, b.author));
+        return sorted;
+    } else if (sortOption === "number_of_pages") {
+        const sorted = books;
+        sorted.sort((a, b) => compareFn(a.number_of_pages, b.number_of_pages));
+        return sorted;
+    } else if (sortOption === "rating") {
+        const sorted = books;
+        sorted.sort((a, b) => compareFn(a.rating as number, b.rating as number));
+        return sorted;
+    }
+    return [];
+}
+
+const compareFn = (a: String | Number, b: String | Number): number => {
+    if (a < b) {
+        return -1;
+    } else {
+        return 1;
+    }
+    return 0;
+}

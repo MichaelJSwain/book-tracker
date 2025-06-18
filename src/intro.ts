@@ -7,8 +7,8 @@ type Book = {
         author: String,
         status: String,
         imageUrl: String,
-        rating: Number | null,
-        review: String | null,
+        rating: Number,
+        review: String,
         date_added: Date,
         date_updated: Date | null,
         date_read: Date | null,
@@ -36,8 +36,8 @@ export const createBook = (title: String, author: String, status: String, imageU
         author,
         status,
         imageUrl: imageUrl,
-        rating: null,
-        review: null,
+        rating: 0,
+        review: "",
         date_added: new Date(),
         date_updated: null,
         date_read: null,
@@ -108,35 +108,44 @@ export const saveBooks = (books: Book[]): {success: boolean, message: string} =>
 }
 
 export const filterBooks = (books: Book[], searchString: string): Book[] => {
-    const filteredBooks = books.filter(book => (book.title.includes(searchString) || book.author.includes(searchString)));
+    const trimmedSearchString = searchString.replace(/\s/g, '')
+
+    if (!trimmedSearchString.length) {
+        return books;
+    }
+    const filteredBooks = books.filter(book => (book.title.toLowerCase().includes(trimmedSearchString.toLowerCase()) || book.author.toLowerCase().includes(trimmedSearchString.toLowerCase())));
     return filteredBooks;
 }
 
 export const sortBooks = (books: Book[], sortOption: string): Book[] => {
-    if (sortOption === "title") {
-        const sorted = books;
+    if (!books.length) {
+        return [];
+    }
+
+    const sorted = [...books];
+    const sortOptionLowercase = sortOption.toLowerCase();
+
+    if (sortOptionLowercase === "title") {
         sorted.sort((a, b) => compareFn(a.title, b.title));
         return sorted;
-    } else if (sortOption === "author") {
-        const sorted = books;
+    } else if (sortOptionLowercase === "author") {
         sorted.sort((a, b) => compareFn(a.author, b.author));
         return sorted;
-    } else if (sortOption === "number_of_pages") {
-        const sorted = books;
+    } else if (sortOptionLowercase === "number_of_pages") {
         sorted.sort((a, b) => compareFn(a.number_of_pages, b.number_of_pages));
         return sorted;
-    } else if (sortOption === "rating") {
-        const sorted = books;
-        sorted.sort((a, b) => compareFn(a.rating as number, b.rating as number));
+    } else if (sortOptionLowercase === "rating") {
+        sorted.sort((a, b) => compareFn(a.rating, b.rating));
         return sorted;
-    }
-    return [];
+    } 
+
+    return books;
 }
 
 const compareFn = (a: String | Number, b: String | Number): number => {
     if (a < b) {
         return -1;
-    } else {
+    } else if (a > b) {
         return 1;
     }
     return 0;

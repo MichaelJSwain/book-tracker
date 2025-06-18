@@ -284,6 +284,106 @@ describe("filter book list", () => {
 
         expect(result).toEqual(emptyList);
     });
+
+    it("should return all books if the search string is empty", () => {
+        const unfilteredList = [{id: UUID(), title: 'book 1', author: 'tim simon', status: 'reading', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'book 2', author: 'darren smith', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'book 3', author: 'sarah day', status: 'reading', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'book 4', author: 'beth darren', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'the book of darren', author: 'terry blah', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'book 6', author: 'cassie yu', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0}
+        ];
+
+        const searchString = "";
+
+        const result = filterBooks(unfilteredList, searchString);
+
+        expect(result).toEqual(unfilteredList);
+    });
+
+    it("should return all books for whitespace-only string", () => {
+        const unfilteredList = [{id: UUID(), title: 'book 1', author: 'tim simon', status: 'reading', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'book 2', author: 'darren smith', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'book 3', author: 'sarah day', status: 'reading', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'book 4', author: 'beth darren', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'the book of darren', author: 'terry blah', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'book 6', author: 'cassie yu', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0}
+        ];
+
+        const searchString = " ";
+
+        const result = filterBooks(unfilteredList, searchString);
+
+        expect(result).toEqual(unfilteredList);
+    });
+
+    it("should return empty array if no books in book list", () => {
+        const unfilteredList = [];
+
+        const searchString = "harry";
+
+        const result = filterBooks(unfilteredList, searchString);
+
+        expect(result).toEqual([]);
+    });
+
+    it("should return book with title Ender's Game if Ender's is passed as search term (handle special characters / punc)", () => {
+        const unfilteredList = [{id: UUID(), title: 'book 1', author: 'tim simon', status: 'reading', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'book 2', author: 'darren smith', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'book 3', author: 'sarah day', status: 'reading', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'book 4', author: 'beth darren', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'the book of darren', author: 'terry blah', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'book 6', author: 'cassie yu', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: "Ender's game", author: 'cassie yu', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0}
+        ];
+
+        const searchString = "Ender's";
+
+        const result = filterBooks(unfilteredList, searchString);
+
+        expect(result).toEqual([unfilteredList[6]]);
+    });
+
+    it("should return 'Harry Potter' and 'harry pinter' if 'harry' passed as search string (case-sensitive matching)", () => {
+        const unfilteredList = [
+            {id: UUID(), title: 'yah', author: 'tim simon', status: 'reading', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'oi', author: 'harry pinter', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'abracadabra', author: 'sarah day', status: 'reading', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'meh', author: 'beth darren', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'allo', author: 'terry blah', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'Harry Potter', author: 'cassie yu', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0}
+        ];
+
+        const filteredList = [
+            unfilteredList[1],
+            unfilteredList[5]
+        ];
+
+        const searchString = "harry";
+
+        const result = filterBooks(unfilteredList, searchString);
+
+        expect(result).toEqual(filteredList);
+    });
+
+    it("should return 'Harry Potter' if 'Pot' is passed as search string (partial matches)", () => {
+        const unfilteredList = [
+            {id: UUID(), title: 'yah', author: 'tim simon', status: 'reading', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'oi', author: 'harry pinter', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'abracadabra', author: 'sarah day', status: 'reading', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'meh', author: 'beth darren', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'allo', author: 'terry blah', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'Harry Potter', author: 'cassie yu', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0}
+        ]; 
+
+        const searchTerm = "Pot";
+
+        const filteredList = [unfilteredList[5]];
+
+        const result = filterBooks(unfilteredList, searchTerm);
+        
+        expect(result).toEqual(filteredList);
+    });
 });
 
 describe("sort book list", () => {
@@ -385,6 +485,59 @@ describe("sort book list", () => {
         ]
 
         const sortOption = "rating";
+
+        const result = sortBooks(unsortedList, sortOption);
+
+        expect(result).toEqual(sortedList);
+    });
+
+    it("should return an empty array if no books in book list", () => {
+        const unsortedList = [];
+
+        const sortOption = "rating";
+
+        const result = sortBooks(unsortedList, sortOption);
+
+        expect(result).toEqual([]);
+    });
+
+    it("should return the unsorted list if unrecognised sort option is passed", () => {
+        const unsortedList = [
+            {id: UUID(), title: 'yah', author: 'tim simon', status: 'reading', imageUrl: "", number_of_pages: 100, rating: 5, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'oi', author: 'darren smith', status: 'read', imageUrl: "", number_of_pages: 200, rating: 3, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'abracadabra', author: 'sarah day', status: 'reading', imageUrl: "", number_of_pages: 800, rating: 4, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'meh', author: 'beth darren', status: 'read', imageUrl: "", number_of_pages: 478, rating: 2, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'allo', author: 'terry blah', status: 'read', imageUrl: "", number_of_pages: 390, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'huh', author: 'cassie yu', status: 'read', imageUrl: "", number_of_pages: 128, rating: 1, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0}
+        ];
+
+        const sortOption = "unrecognisedOption";
+
+        const result = sortBooks(unsortedList, sortOption);
+
+        expect(result).toBe(unsortedList);
+    });
+
+    it("should return the book list with the titles sorted alphabetically if passing a mixed case sort option", () => {
+        const unsortedList = [
+            {id: UUID(), title: 'yah', author: 'tim simon', status: 'reading', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'oi', author: 'darren smith', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'abracadabra', author: 'sarah day', status: 'reading', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'meh', author: 'beth darren', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'allo', author: 'terry blah', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'huh', author: 'cassie yu', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0}
+        ];
+
+        const sortedList = [
+            unsortedList[2],
+            unsortedList[4],
+            unsortedList[5],
+            unsortedList[3],
+            unsortedList[1],
+            unsortedList[0]
+        ]
+
+        const sortOption = "TiTle";
 
         const result = sortBooks(unsortedList, sortOption);
 

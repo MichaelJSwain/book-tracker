@@ -20,14 +20,16 @@ type Error = {
     message: String
 }
 
+type ResponseObject<T = Book | Book[] | null> = {
+    data?: T;
+    success: boolean,
+    message: string
+}
+
 const BOOKS_KEY: string = "book_list";
 
-export const createBook = (title: String, author: String, status: String, imageUrl: String | undefined, number_of_pages: Number): Book | Error => {
-    // simulate error
-    if (title === "error") {
-        return {message: "Sorry, unable to create book"};
-    }
-
+export const createBook = (title: String, author: String, status: String, imageUrl: String | undefined, number_of_pages: Number): ResponseObject => {
+    
     imageUrl = imageUrl ? imageUrl : "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png";
 
     const newBook = {
@@ -45,56 +47,91 @@ export const createBook = (title: String, author: String, status: String, imageU
         read_count: 0
     }
     
-    const fetchedBooks = fetchBooks();
-    const updatedBooks = [
-        ...fetchedBooks,
-        newBook
-    ]
-    
-    saveBooks(updatedBooks);
+    const { data: fetchedBooks } = fetchBooks();
 
-    return newBook;
+    if (fetchedBooks) {
+        const updatedBooks = [
+            ...fetchedBooks,
+            newBook
+        ]
+        
+        const saved = saveBooks(updatedBooks);
+        
+        if (saved.success) {
+            return { data: newBook, success: true, message: "Successfully created book" };
+        } else {
+            return { success: false, message: "Sorry, unable to create book" };
+        }
+    } else {
+        return { success: false, message: "Sorry, unable to create book" };
+    }
+
 };
 
-export const fetchBooks = (): Book[] => {
-    const books = localStorage.getItem(BOOKS_KEY);
-    if (books) {
-        const parsed = JSON.parse(books);
-        return parsed;
+export const fetchBooks = (): ResponseObject => {
+    try {
+        const books = localStorage.getItem(BOOKS_KEY);
+        if (books) {
+            const parsed = JSON.parse(books);
+            return {data: parsed, success: true, message: "Successfully fetched books"};
+        }
+        return {data: [], success: true, message: "Successfully fetched books"};
+    } catch(error) {
+        return {success: false, message: "Failed to fetch books"};
     }
-    return [];
+
 }
 
-export const fetchBook = (id: UUIDTypes) => {
-    const fetchedBooks = fetchBooks();
-    return fetchedBooks.find((book: Book) => book.id === id) || { message: "Sorry, couldn't find book" };
-}
+export const fetchBook = (id: UUIDTypes): ResponseObject => {
+    const { data: fetchedBooks } = fetchBooks();
 
-export const deleteBook = (bookId: UUIDTypes): { message: String } => {
-    const books = fetchBooks();
-    const filtered = books.filter(book => book.id !== bookId);
-    saveBooks(filtered);
-
-    if (books.length !== filtered.length) {
-        return { message: "Successfully deleted book" }
+    if (fetchedBooks && Array.isArray(fetchedBooks)) {
+        const foundBook = fetchedBooks.find((book: Book) => book.id === id);
+        
+        if (foundBook) {
+            return { data: foundBook, success: true, message: "successfully fetched book"};
+        } else {
+            return { success: false, message: "Unable to fetch book"};
+        }
     } else {
-        return {message: "Sorry, unable to delete book"}
+        return { success: false, message: "Sorry, couldn't find book" };
     }
 }
 
-export const updateBook = (updatedBook: Book): {data: Book | null, message: String} => {
-    const books = fetchBooks();
-    const index = books.findIndex(book => book.id === updatedBook.id);
-    if (index !== -1) {
-        books[index] = updatedBook;
-        saveBooks(books);
-        return {data: books[index], message: "Successfully updated book"}
+export const deleteBook = (bookId: UUIDTypes): ResponseObject => {
+    const { data: fetchedBooks} = fetchBooks();
+   
+    if (fetchedBooks && Array.isArray(fetchedBooks)) {
+        const filtered = fetchedBooks.filter(book => book.id !== bookId);
+        saveBooks(filtered);
+
+        if (fetchedBooks.length !== filtered.length) {
+            return { success: true, message: "Successfully deleted book" };
+        } else {
+            return { success: false, message: "Sorry, unable to delete book" };
+        }
     } else {
-        return {data: null, message: "Unable to find book"};
+        return { success: false, message: "Error trying to delete book" };
     }
 }
 
-export const saveBooks = (books: Book[]): {success: boolean, message: string} => {
+export const updateBook = (updatedBook: Book): ResponseObject => {
+    const { data: fetchedBooks } = fetchBooks();
+
+    if (fetchedBooks && Array.isArray(fetchedBooks)) {
+        const index = fetchedBooks.findIndex(book => book.id === updatedBook.id);
+        if (index !== -1) {
+            fetchedBooks[index] = updatedBook;
+            saveBooks(fetchedBooks);
+            return {data: fetchedBooks[index], message: "Successfully updated book"}
+        } else {
+            return {data: null, message: "Unable to find book"};
+        }
+    }
+    return {data: null, message: "Error tryign to find book"};
+}
+
+export const saveBooks = (books: Book[]): ResponseObject => {
     if (Array.isArray(books)) {
         try {
             localStorage.setItem(BOOKS_KEY, JSON.stringify(books));

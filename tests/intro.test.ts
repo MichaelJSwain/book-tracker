@@ -13,12 +13,28 @@ describe("create book", () => {
         const title = "The great book";
         const author = "Dave Smith";
         const status = "Reading";
+        const response = { 
+            data: {
+                title: 'The great book',
+                author: 'Dave Smith',
+                status: 'Reading',
+                imageUrl: 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png',
+                rating: 0,
+                review: '',
+                date_updated: null,
+                date_read: null,
+                number_of_pages: undefined,
+                read_count: 0
+            }, 
+            success: true, 
+            message: "Successfully created book"
+        };
 
         // act
         const result = createBook(title, author, status);
         
         // assert
-        expect(result).toBeTypeOf("object");
+        expect(result).toMatchObject(response);
     });
 
     it("should return an object containing the status code and message if it was unable to create the book", () => {
@@ -26,7 +42,12 @@ describe("create book", () => {
         const author = "Dave Smith";
         const status = "Reading";
 
-        const error = {message: "Sorry, unable to create book"};
+        vi.spyOn(localStorage, "setItem").mockImplementation(() => {
+            console.log("SPIED ON LOCALSTORAGE")
+            throw new Error("Mock save books failure case");
+        });
+
+        const error = { success: false, message: "Sorry, unable to create book" };
 
         const result = createBook(title, author, status);
 
@@ -44,7 +65,7 @@ describe("fetch books", () => {
         const result = fetchBooks();
 
         // assert
-        expect(result).toEqual([]);
+        expect(result).toEqual({data: [], success: true, message: "Successfully fetched books"});
     });
     it('returns array of Books if books are found in localStorage', () => {
         // arrange
@@ -57,7 +78,7 @@ describe("fetch books", () => {
         const result = fetchBooks();
 
         // assert
-        expect(result).toEqual(books);
+        expect(result).toEqual({data: books, success: true, message: "Successfully fetched books"});
     });
 });
 
@@ -78,7 +99,7 @@ describe("fetch a single book", () => {
         const result = fetchBook(bookId);
 
         // assert
-        expect(result).toEqual(books[0]);
+        expect(result).toEqual({data: books[0], success: true, message: "successfully fetched book"});
     });
 
     it("should return an object with a message if the book is not found in localStorage", () => {
@@ -94,7 +115,7 @@ describe("fetch a single book", () => {
         const result = fetchBook(bookId);
 
         // assert
-        expect(result).toEqual(noBookFoundResponse);
+        expect(result).toEqual({ success: false, message: "Unable to fetch book"});
     });
 
     it("should return an object with a message if there are no books in localStorage", () => {
@@ -103,7 +124,7 @@ describe("fetch a single book", () => {
 
         const result = fetchBook(bookId);
 
-        expect(result).toEqual(noBooksFoundResponse);
+        expect(result).toEqual({ success: false, message: "Unable to fetch book"});
     });
 });
 
@@ -113,7 +134,7 @@ describe("delete a book", () => {
     });
 
     it("should delete a book and return success message if book is successfully deleted", () => {
-        const successMessage = {message: "Successfully deleted book"};
+        const successMessage =  { success: true, message: "Successfully deleted book" };
         const bookId = UUID();
         const books = [{id: bookId, title: 'book 1', author: 'dave smith', status: 'reading', imageUrl: null, number_of_pages: 100},
             {id: UUID(), title: 'book 2', author: 'sarah simon', status: 'reading', imageUrl: null, number_of_pages: 100}
@@ -127,7 +148,7 @@ describe("delete a book", () => {
     });
 
     it("should return error message if unable to delete book from localStorage", () => {
-        const failureMessage = {message: "Sorry, unable to delete book"};
+        const failureMessage = { success: false, message: "Sorry, unable to delete book" };
         const bookId = UUID();
         const books = [{id: UUID(), title: 'book 1', author: 'dave smith', status: 'reading', imageUrl: null, number_of_pages: 100},
             {id: UUID(), title: 'book 2', author: 'sarah simon', status: 'reading', imageUrl: null, number_of_pages: 100}
@@ -141,7 +162,7 @@ describe("delete a book", () => {
     });
 
      it("should return error message if unable no items in localStorage", () => {
-        const failureMessage = {message: "Sorry, unable to delete book"};
+        const failureMessage = { success: false, message: "Sorry, unable to delete book" };
         const bookId = UUID();
 
         const result = deleteBook(bookId);

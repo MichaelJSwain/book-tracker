@@ -185,7 +185,7 @@ describe("update a book", () => {
         localStorage.setItem('book_list', JSON.stringify(books));
 
         const updatedBook = {id: bookId, title: 'book 2', author: 'darren smith', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0};
-        const success = {data: updatedBook, message: "Successfully updated book"};
+        const success = {data: updatedBook, success: true, message: "Successfully updated book"};
 
         const result = updateBook(updatedBook);
         
@@ -201,7 +201,7 @@ describe("update a book", () => {
         localStorage.setItem('book_list', JSON.stringify(books));
 
         const updatedBook = {id: bookId, title: 'book 2', author: 'darren smith', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0};
-        const error = {data: null, message: "Unable to find book"};
+        const error = {success: false, message: "Unable to find book"};
 
         const result = updateBook(updatedBook);
         
@@ -211,7 +211,7 @@ describe("update a book", () => {
     it("should return error message if nothing in localStorage", () => {
         const bookId = UUID();
         const updatedBook = {id: bookId, title: 'book 2', author: 'darren smith', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0};
-        const error = {data: null, message: "Unable to find book"};
+        const error = {success: false, message: "Unable to find book"};
 
         const result = updateBook(updatedBook);
         

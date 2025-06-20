@@ -16,10 +16,6 @@ type Book = {
         read_count: Number
 }
 
-type Error = {
-    message: String
-}
-
 type ResponseObject<T = Book | Book[] | null> = {
     data?: T;
     success: boolean,
@@ -49,7 +45,7 @@ export const createBook = (title: String, author: String, status: String, imageU
     
     const { data: fetchedBooks } = fetchBooks();
 
-    if (fetchedBooks) {
+    if (fetchedBooks && Array.isArray(fetchedBooks)) {
         const updatedBooks = [
             ...fetchedBooks,
             newBook
@@ -123,12 +119,12 @@ export const updateBook = (updatedBook: Book): ResponseObject => {
         if (index !== -1) {
             fetchedBooks[index] = updatedBook;
             saveBooks(fetchedBooks);
-            return {data: fetchedBooks[index], message: "Successfully updated book"}
+            return { data: fetchedBooks[index], success: true, message: "Successfully updated book" }
         } else {
-            return {data: null, message: "Unable to find book"};
+            return { success: false, message: "Unable to find book" };
         }
     }
-    return {data: null, message: "Error tryign to find book"};
+    return { success: false, message: "Error tryign to find book" };
 }
 
 export const saveBooks = (books: Book[]): ResponseObject => {

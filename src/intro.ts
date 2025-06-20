@@ -1,6 +1,6 @@
 import { v4 as uuid, type UUIDTypes } from "uuid";
 
-// interface types
+
 type Book = {
         id: UUIDTypes,
         title: String,
@@ -15,6 +15,8 @@ type Book = {
         number_of_pages: Number,
         read_count: Number
 }
+
+type SortDirection = "asc" | "desc";
 
 type ResponseObject<T = Book | Book[] | null> = {
     data?: T;
@@ -150,7 +152,7 @@ export const filterBooks = (books: Book[], searchString: string): Book[] => {
     return filteredBooks;
 }
 
-export const sortBooks = (books: Book[], sortOption: string): Book[] => {
+export const sortBooks = (books: Book[], sortOption: string, sortDirection: SortDirection = 'asc'): Book[] => {
     if (!books.length) {
         return [];
     }
@@ -159,27 +161,27 @@ export const sortBooks = (books: Book[], sortOption: string): Book[] => {
     const sortOptionLowercase = sortOption.toLowerCase();
 
     if (sortOptionLowercase === "title") {
-        sorted.sort((a, b) => compareFn(a.title, b.title));
+        sorted.sort((a, b) => compareFn(a.title, b.title, sortDirection));
         return sorted;
     } else if (sortOptionLowercase === "author") {
-        sorted.sort((a, b) => compareFn(a.author, b.author));
+        sorted.sort((a, b) => compareFn(a.author, b.author, sortDirection));
         return sorted;
     } else if (sortOptionLowercase === "number_of_pages") {
-        sorted.sort((a, b) => compareFn(a.number_of_pages, b.number_of_pages));
+        sorted.sort((a, b) => compareFn(a.number_of_pages, b.number_of_pages, sortDirection));
         return sorted;
     } else if (sortOptionLowercase === "rating") {
-        sorted.sort((a, b) => compareFn(a.rating, b.rating));
+        sorted.sort((a, b) => compareFn(a.rating, b.rating, sortDirection));
         return sorted;
     } 
 
     return books;
 }
 
-const compareFn = (a: String | Number, b: String | Number): number => {
+const compareFn = (a: String | Number, b: String | Number, sortDirection: string): number => {
     if (a < b) {
-        return -1;
+        return sortDirection === "asc" ? -1 : 1;
     } else if (a > b) {
-        return 1;
+        return sortDirection === "asc" ? 1 : -1;
     }
     return 0;
 }

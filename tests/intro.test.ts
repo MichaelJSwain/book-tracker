@@ -408,7 +408,7 @@ describe("filter book list", () => {
 });
 
 describe("sort book list", () => {
-    it("should return an array of books with the title sorted in alphabetical order", () => {
+    it("should return an array of books with the title sorted in ascending order if no sortDirection arg is passed", () => {
         const unsortedList = [
             {id: UUID(), title: 'yah', author: 'tim simon', status: 'reading', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
             {id: UUID(), title: 'oi', author: 'darren smith', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
@@ -434,7 +434,60 @@ describe("sort book list", () => {
         expect(result).toEqual(sortedList);
     });
 
-    it("should return an array of books with the author sorted in alphabetical order", () => {
+    it("should return an array of books with the title sorted in ascending order if 'asc' is passed as sortDirection", () => {
+        const unsortedList = [
+            {id: UUID(), title: 'yah', author: 'tim simon', status: 'reading', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'oi', author: 'darren smith', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'abracadabra', author: 'sarah day', status: 'reading', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'meh', author: 'beth darren', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'allo', author: 'terry blah', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'huh', author: 'cassie yu', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0}
+        ];
+
+        const sortedList = [
+            unsortedList[2],
+            unsortedList[4],
+            unsortedList[5],
+            unsortedList[3],
+            unsortedList[1],
+            unsortedList[0]
+        ]
+
+        const sortOption = "title";
+
+        const result = sortBooks(unsortedList, sortOption, "asc");
+
+        expect(result).toEqual(sortedList);
+    });
+
+    it("should return an array of books with the title sorted in descending order if 'desc' is passed as sortDirection", () => {
+        const unsortedList = [
+            {id: UUID(), title: 'yah', author: 'tim simon', status: 'reading', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'oi', author: 'darren smith', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'abracadabra', author: 'sarah day', status: 'reading', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'meh', author: 'beth darren', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'allo', author: 'terry blah', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
+            {id: UUID(), title: 'huh', author: 'cassie yu', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0}
+        ];
+
+        const sortedList = [
+            unsortedList[0],
+            unsortedList[1],
+            unsortedList[3],
+            unsortedList[5],
+            unsortedList[4],
+            unsortedList[2]
+        ]
+
+        const sortOption = "title";
+
+        const result = sortBooks(unsortedList, sortOption, "desc");
+
+        expect(result).toEqual(sortedList);
+    });
+
+
+    it("should return an array of books with the author sorted in ascending order if no sortDirection arg is passed", () => {
         const unsortedList = [
             {id: UUID(), title: 'yah', author: 'tim simon', status: 'reading', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
             {id: UUID(), title: 'oi', author: 'darren smith', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
@@ -460,7 +513,7 @@ describe("sort book list", () => {
         expect(result).toEqual(sortedList);
     });
 
-    it("should return an array of books sorted by number of pages (low to high)", () => {
+    it("should return an array of books sorted by number of pages in ascending order (low to high)", () => {
         const unsortedList = [
             {id: UUID(), title: 'yah', author: 'tim simon', status: 'reading', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
             {id: UUID(), title: 'oi', author: 'darren smith', status: 'read', imageUrl: "", number_of_pages: 200, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
@@ -486,7 +539,7 @@ describe("sort book list", () => {
         expect(result).toEqual(sortedList);
     });
 
-    it("should return an array of books sorted by rating (low to high)", () => {
+    it("should return an array of books sorted by rating in ascending order (low to high)", () => {
         const unsortedList = [
             {id: UUID(), title: 'yah', author: 'tim simon', status: 'reading', imageUrl: "", number_of_pages: 100, rating: 5, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
             {id: UUID(), title: 'oi', author: 'darren smith', status: 'read', imageUrl: "", number_of_pages: 200, rating: 3, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
@@ -522,7 +575,7 @@ describe("sort book list", () => {
         expect(result).toEqual([]);
     });
 
-    it("should return the unsorted list if unrecognised sort option is passed", () => {
+    it("should return the unsorted list if unrecognised sort option is passed if no sortDirection arg is passed", () => {
         const unsortedList = [
             {id: UUID(), title: 'yah', author: 'tim simon', status: 'reading', imageUrl: "", number_of_pages: 100, rating: 5, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
             {id: UUID(), title: 'oi', author: 'darren smith', status: 'read', imageUrl: "", number_of_pages: 200, rating: 3, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
@@ -539,7 +592,7 @@ describe("sort book list", () => {
         expect(result).toBe(unsortedList);
     });
 
-    it("should return the book list with the titles sorted alphabetically if passing a mixed case sort option", () => {
+    it("should return the book list with the titles sorted alphabetically if passing a mixed case sort option if no sortDirection arg is passed", () => {
         const unsortedList = [
             {id: UUID(), title: 'yah', author: 'tim simon', status: 'reading', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},
             {id: UUID(), title: 'oi', author: 'darren smith', status: 'read', imageUrl: "", number_of_pages: 100, rating: 0, review: "", date_added: new Date(), date_updated: new Date(), date_read: new Date(), read_count: 0},

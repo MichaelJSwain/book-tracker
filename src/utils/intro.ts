@@ -1,20 +1,20 @@
 import { v4 as uuid, type UUIDTypes } from "uuid";
+import type { Book } from "../types/index";
 
-
-type Book = {
-        id: UUIDTypes,
-        title: String,
-        author: String,
-        status: String,
-        imageUrl: String,
-        rating: Number,
-        review: String,
-        date_added: Date,
-        date_updated: Date | null,
-        date_read: Date | null,
-        number_of_pages: Number,
-        read_count: Number
-}
+// type Book = {
+//         id: UUIDTypes,
+//         title: String,
+//         author: String,
+//         status: String,
+//         imageUrl: String,
+//         rating: Number,
+//         review: String,
+//         date_added: Date,
+//         date_updated: Date | null,
+//         date_read: Date | null,
+//         number_of_pages: Number,
+//         read_count: Number
+// }
 
 type SortDirection = "asc" | "desc";
 

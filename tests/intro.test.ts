@@ -1,5 +1,5 @@
 import { describe, test, it, expect, beforeEach, vi, afterEach } from "vitest";
-import {createBook, deleteBook, fetchBook, fetchBooks, filterBooks, saveBooks, sortBooks, updateBook} from "../src/utils/bookUtils.ts";
+import {createBook, deleteBook, fetchBook, fetchBooks, filterBooks, saveBooks, sortBooks, updateBook} from "../src/utils/intro.ts";
 import { setupMockLocalStorage } from "./mocks/setupMockLocalStorage.ts";
 import { v4 as UUID } from "uuid";
 

@@ -1,20 +1,20 @@
 import { v4 as uuid, type UUIDTypes } from "uuid";
+import type { Book } from "../types/index";
 
-
-type Book = {
-        id: UUIDTypes,
-        title: String,
-        author: String,
-        status: String,
-        imageUrl: String,
-        rating: Number,
-        review: String,
-        date_added: Date,
-        date_updated: Date | null,
-        date_read: Date | null,
-        number_of_pages: Number,
-        read_count: Number
-}
+// type Book = {
+//         id: UUIDTypes,
+//         title: String,
+//         author: String,
+//         status: String,
+//         imageUrl: String,
+//         rating: Number,
+//         review: String,
+//         date_added: Date,
+//         date_updated: Date | null,
+//         date_read: Date | null,
+//         number_of_pages: Number,
+//         read_count: Number
+// }
 
 type SortDirection = "asc" | "desc";
 
@@ -28,6 +28,10 @@ const BOOKS_KEY: string = "book_list";
 
 export const createBook = (title: String, author: String, status: String, imageUrl: String | undefined, number_of_pages: Number): ResponseObject => {
     
+    if (!title || !author || !status || !number_of_pages) {
+        return { success: false, message: "Please pass the required values" };
+    }
+
     imageUrl = imageUrl ? imageUrl : "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png";
 
     const newBook = {

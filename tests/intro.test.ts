@@ -1,29 +1,31 @@
 import { describe, test, it, expect, beforeEach, vi, afterEach } from "vitest";
-import {createBook, deleteBook, fetchBook, fetchBooks, filterBooks, saveBooks, sortBooks, updateBook} from "../src/utils/bookUtils.ts";
+import {createBook, deleteBook, fetchBook, fetchBooks, filterBooks, saveBooks, sortBooks, updateBook} from "../src/utils/intro.ts";
 import { setupMockLocalStorage } from "./mocks/setupMockLocalStorage.ts";
 import { v4 as UUID } from "uuid";
+import puppeteer from 'puppeteer';
 
 describe("create book", () => {
     beforeEach(() => {
         setupMockLocalStorage();
     });
 
-    it("should return a book object if the title, author and status are passed as args", () => {
+    it("should return a book object if the title, author, status and number_of_pages are passed as args", () => {
         // arrange
         const title = "The great book";
         const author = "Dave Smith";
         const status = "Reading";
+        const number_of_pages = 200;
         const response = { 
             data: {
-                title: 'The great book',
-                author: 'Dave Smith',
-                status: 'Reading',
+                title,
+                author,
+                status,
                 imageUrl: 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png',
                 rating: 0,
                 review: '',
                 date_updated: null,
                 date_read: null,
-                number_of_pages: undefined,
+                number_of_pages,
                 read_count: 0
             }, 
             success: true, 
@@ -31,28 +33,50 @@ describe("create book", () => {
         };
 
         // act
-        const result = createBook(title, author, status);
+        const result = createBook(title, author, status, undefined, number_of_pages);
         
         // assert
         expect(result).toMatchObject(response);
+    });
+
+    it("should return an unsuccessful response object if the require args title, author, status and number_of_pages aren't passed", () => {
+        const newBook = { author: "Peter Smith", status: "Reading" };
+        const failureResponse = { success: false, message: "Please pass the required values" };
+
+        const result = createBook(newBook);
+
+        expect(result).toEqual(failureResponse);
     });
 
     it("should return an object containing the status code and message if it was unable to create the book", () => {
         const title = "error";
         const author = "Dave Smith";
         const status = "Reading";
+        const number_of_pages = 200;
 
         vi.spyOn(localStorage, "setItem").mockImplementation(() => {
-            console.log("SPIED ON LOCALSTORAGE")
             throw new Error("Mock save books failure case");
         });
 
         const error = { success: false, message: "Sorry, unable to create book" };
 
-        const result = createBook(title, author, status);
+        const result = createBook(title, author, status, undefined, number_of_pages);
 
         expect(result).toEqual(error);
     });
+
+    it("should show an error message if the form is submitted without the required values", async () => {
+        const browser = await puppeteer.launch({
+            headless: true
+        });
+        
+        const page = await browser.newPage();
+        await page.goto('http://localhost:5173');
+        
+        await page.click('button');
+        const selector = await page.waitForSelector('.error-message');
+        expect(!!selector).toBe(true);
+    })
 });
 
 describe("fetch books", () => {

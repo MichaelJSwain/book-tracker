@@ -1,14 +1,16 @@
 import { useEffect, useState, type ChangeEvent } from "react"
-import { createBook, fetchBooks } from "../utils/intro";
+import { createBook, fetchBooks, filterBooks } from "../utils/intro";
 import type { Book, FormData } from "../types/index";
 import { BookList } from "../components/BookList/BookList";
 
 
 export const BookListView = () => {
     const [bookList, setBookList] = useState<Array<Book>>([]);
+    const [filteredBookList, setFilteredBookList] = useState<Array<Book>>([]);
     const [isShowingError, setIsShowingError] = useState<Boolean>(false);
     const [isShowingForm, setIsShowingForm] = useState<Boolean>(false);
     const [isLoading, setIsLoading] = useState<Boolean>(false);
+    const [searchInputText, setSearchInputText] = useState<string>("");
     const [formData, setFormData] = useState<FormData>({
         title: "",
         author: "",
@@ -23,12 +25,15 @@ export const BookListView = () => {
         console.log("fetched books = ", books, success);
         if (success && books && Array.isArray(books)) {
             setBookList(books);
+            setFilteredBookList(books);
         }
     }
 
-    const handleChange = (e: ChangeEvent) => {
-        e.preventDefault();
+    const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchInputText(e.target.value);
+    }
 
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const copy = {
             ...formData
         };
@@ -57,6 +62,12 @@ export const BookListView = () => {
         getBooks();
     }, []);
 
+    useEffect(() => {
+        console.log("search input text effect running")
+        const filtered = filterBooks(bookList, searchInputText);
+        setFilteredBookList(filtered);
+    }, [searchInputText]);
+
     return (
         <>
             <div className="page-header">
@@ -71,14 +82,14 @@ export const BookListView = () => {
             {isLoading ? <div>Loading...</div> :
                   <div>
                 <div className="flex flex-hr">
-                    <input className="search-input" placeholder="Search for a book..."></input>
+                    <input className="search-input" placeholder="Search for a book..." onChange={handleSearchInputChange} value={searchInputText}></input>
                     <button>Filter</button>
                 </div>
 
                 <div className="mv-16 text-align-left">
-                    {bookList.length} books
+                    {filteredBookList.length} books
                 </div>
-                <BookList bookList={bookList}></BookList>
+                <BookList bookList={filteredBookList}></BookList>
             </div>
             }
       

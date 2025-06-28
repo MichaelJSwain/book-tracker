@@ -28,6 +28,10 @@ const BOOKS_KEY: string = "book_list";
 
 export const createBook = (title: String, author: String, status: String, imageUrl: String | undefined, number_of_pages: Number): ResponseObject => {
     
+    if (!title || !author || !status || !number_of_pages) {
+        return { success: false, message: "Please pass the required values" };
+    }
+
     imageUrl = imageUrl ? imageUrl : "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png";
 
     const newBook = {

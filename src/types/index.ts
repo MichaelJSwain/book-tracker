@@ -14,3 +14,11 @@ export type Book = {
         number_of_pages: Number,
         read_count: Number
 }
+
+export type FormData = {
+    title: string,
+    author: string,
+    status: string,
+    imageUrl: string,
+    number_of_pages: number
+}

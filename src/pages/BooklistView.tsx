@@ -1,7 +1,8 @@
 import { useEffect, useState, type ChangeEvent } from "react"
 import { createBook, fetchBooks } from "../utils/intro";
 import type { Book, FormData } from "../types/index";
-import { BookCard } from "../components/BookCard/BookCard";
+import { BookList } from "../components/BookList/BookList";
+
 
 export const BookListView = () => {
     const [bookList, setBookList] = useState<Array<Book>>([]);
@@ -77,11 +78,7 @@ export const BookListView = () => {
                 <div className="mv-16 text-align-left">
                     {bookList.length} books
                 </div>
-                 <div>
-                    {bookList.map((book: Book) => {
-                        return <BookCard key={`${book.id}`} book={book}></BookCard>
-                    })}
-                 </div>
+                <BookList bookList={bookList}></BookList>
             </div>
             }
       

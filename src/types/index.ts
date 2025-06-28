@@ -19,10 +19,15 @@ export type BookCardProps = {
         book: Book
 }
 
-export type FormData = {
+export type BookListProps = {
+        bookList: Book[]
+}
+
+type FormData = {
     title: string,
     author: string,
     status: string,
     imageUrl: string,
     number_of_pages: number
 }
+export default FormData

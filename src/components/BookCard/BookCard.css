@@ -1,0 +1,17 @@
+.book-card {
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 80px auto;
+    gap: 16px;
+}
+
+.book-img {
+    height: 100%;
+    width: 100%;
+}
+
+.book-details {
+    margin: 8px 0;
+}

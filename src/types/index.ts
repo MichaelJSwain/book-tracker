@@ -15,6 +15,10 @@ export type Book = {
         read_count: Number
 }
 
+export type BookCardProps = {
+        book: Book
+}
+
 export type FormData = {
     title: string,
     author: string,

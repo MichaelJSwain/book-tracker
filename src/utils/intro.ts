@@ -1,5 +1,5 @@
 import { v4 as uuid, type UUIDTypes } from "uuid";
-import type { Book } from "../types/index";
+import type { Book, SortDirection } from "../types/index";
 
 // type Book = {
 //         id: UUIDTypes,
@@ -16,7 +16,7 @@ import type { Book } from "../types/index";
 //         read_count: Number
 // }
 
-type SortDirection = "asc" | "desc";
+
 
 type ResponseObject<T = Book | Book[] | null> = {
     data?: T;

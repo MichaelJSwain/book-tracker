@@ -1,5 +1,5 @@
 import { v4 as uuid, type UUIDTypes } from "uuid";
-import type { Book } from "../types/index";
+import type { Book, SortDirection } from "../types/index";
 
 // type Book = {
 //         id: UUIDTypes,
@@ -16,7 +16,7 @@ import type { Book } from "../types/index";
 //         read_count: Number
 // }
 
-type SortDirection = "asc" | "desc";
+
 
 type ResponseObject<T = Book | Book[] | null> = {
     data?: T;
@@ -170,7 +170,7 @@ export const sortBooks = (books: Book[], sortOption: string, sortDirection: Sort
     } else if (sortOptionLowercase === "author") {
         sorted.sort((a, b) => compareFn(a.author, b.author, sortDirection));
         return sorted;
-    } else if (sortOptionLowercase === "number_of_pages") {
+    } else if (sortOptionLowercase === "number of pages") {
         sorted.sort((a, b) => compareFn(a.number_of_pages, b.number_of_pages, sortDirection));
         return sorted;
     } else if (sortOptionLowercase === "rating") {

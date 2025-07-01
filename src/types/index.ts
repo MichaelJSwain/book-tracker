@@ -23,6 +23,19 @@ export type BookListProps = {
         bookList: Book[]
 }
 
+export interface ClickAwayListenerProps {
+  children: React.ReactNode;
+  onClickAway: () => void;
+}
+
+export interface TooltipGroupProps {
+  children: React.ReactNode;
+}
+
+export type TooltipProps = {
+        clickFunc: React.MouseEventHandler<HTMLLIElement>
+}
+
 type FormData = {
     title: string,
     author: string,
@@ -31,3 +44,5 @@ type FormData = {
     number_of_pages: number
 }
 export default FormData
+
+export type SortDirection = "asc" | "desc";

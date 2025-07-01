@@ -5,6 +5,9 @@ import { BookList } from "../components/BookList/BookList";
 import { ClickAwayListener } from "../components/ClickAwayListener/ClickAwayListener.tsx";
 import { Tooltip } from "../components/Tooltip/Tooltip.tsx";
 import { TooltipGroup } from "../components/TooltipGroup/TooltipGroup.tsx";
+import { createPortal } from "react-dom";
+
+const portalEl = document.getElementById('portal');
 
 export const BookListView = () => {
     const [bookList, setBookList] = useState<Array<Book>>([]);
@@ -131,9 +134,8 @@ export const BookListView = () => {
             </div>
             }
       
-
            
-            {isShowingForm &&
+            {isShowingForm && createPortal(
             <div>
                 <div>
                     <h1>Add book</h1>
@@ -162,7 +164,9 @@ export const BookListView = () => {
                     </fieldset>
                     <button data-testId="save-book-button" type="submit">Save book</button>
                 </form>
-            </div>
+            </div>,
+            portalEl
+            )
             }
 
             {isShowingError && <div data-testId="error-message" className="error-message"><button onClick={() => setIsShowingError(false)}>X</button><div><p>Error!</p></div></div>}

@@ -1,3 +1,4 @@
+import type { FormEventHandler, MouseEventHandler } from "react"
 import type { UUIDTypes } from "uuid"
 
 export type Book = {
@@ -21,6 +22,11 @@ export type BookCardProps = {
 
 export type BookListProps = {
         bookList: Book[]
+}
+
+export type CreateBookFormProps = {
+        closeFunc: MouseEventHandler<HTMLButtonElement>,
+        submitFunc: FormEventHandler<HTMLFormElement>
 }
 
 export interface ClickAwayListenerProps {

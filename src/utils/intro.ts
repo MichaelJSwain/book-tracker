@@ -1,5 +1,5 @@
 import { v4 as uuid, type UUIDTypes } from "uuid";
-import type { Book, SortDirection } from "../types/index";
+import type { Book, SortDirection, ResponseObject } from "../types/index";
 
 // type Book = {
 //         id: UUIDTypes,
@@ -18,11 +18,7 @@ import type { Book, SortDirection } from "../types/index";
 
 
 
-type ResponseObject<T = Book | Book[] | null> = {
-    data?: T;
-    success: boolean,
-    message: string
-}
+
 
 const BOOKS_KEY: string = "book_list";
 

@@ -24,10 +24,10 @@ export type BookListProps = {
         bookList: Book[]
 }
 
-export type CreateBookFormProps = {
-        closeFunc: MouseEventHandler<HTMLButtonElement>,
-        submitFunc: FormEventHandler<HTMLFormElement>
-}
+// export type CreateBookFormProps = {
+//         closeFunc: MouseEventHandler<HTMLButtonElement>,
+//         submitFunc: FormEventHandler<HTMLFormElement>
+// }
 
 export interface ClickAwayListenerProps {
   children: React.ReactNode;
@@ -42,13 +42,33 @@ export type TooltipProps = {
         clickFunc: React.MouseEventHandler<HTMLLIElement>
 }
 
-type FormData = {
+export type FormData = {
     title: string,
     author: string,
     status: string,
     imageUrl: string,
     number_of_pages: number
 }
-export default FormData
+// export default FormData
 
 export type SortDirection = "asc" | "desc";
+
+export interface UIDrawerProps {
+  children: React.ReactNode;
+  closeFunc: () => void;
+  title: string
+}
+
+export type UIDrawerHandle = {
+  close: () => void;
+};
+
+export type ResponseObject<T = Book | Book[] | null> = {
+    data?: T;
+    success: boolean,
+    message: string
+}
+
+export interface CreateBookFormProps {
+        submitFunc: (result: ResponseObject<Book | Book[] | null>) => void
+}

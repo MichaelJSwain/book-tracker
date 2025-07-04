@@ -1,9 +1,9 @@
 import { useState } from "react";
 import type { FormData, CreateBookFormProps } from "../../types";
 import { createBook } from "../../utils/intro";
-import "./CreateBookForm.css"
+import "./BookForm.css"
 
-export const CreateBookForm = ({ submitFunc }: CreateBookFormProps) => {
+export const BookForm = ({ submitFunc }: CreateBookFormProps) => {
         const [formData, setFormData] = useState<FormData>({
             title: "",
             author: "",

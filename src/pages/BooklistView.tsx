@@ -7,7 +7,7 @@ import { Tooltip } from "../components/Tooltip/Tooltip.tsx";
 import { TooltipGroup } from "../components/TooltipGroup/TooltipGroup.tsx";
 import { createPortal } from "react-dom";
 import { UIDrawer } from "../components/UIDrawer/UIDrawer.tsx";
-import { CreateBookForm } from "../components/CreateBookForm/CreateBookForm.tsx";
+import { BookForm } from "../components/BookForm/BookForm.tsx";
 
 const portalElem = document.getElementById('portal') as HTMLElement;
 
@@ -22,13 +22,6 @@ export const BookListView = () => {
     const [sortOption, setSortOption] = useState<string>("title");
     const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
     const uiDrawerRef = useRef<UIDrawerHandle>(null);
-    const [formData, setFormData] = useState<FormData>({
-        title: "",
-        author: "",
-        status: "",
-        imageUrl: "",
-        number_of_pages: 0
-    });
 
     const getBooks = async () => {
         
@@ -43,15 +36,6 @@ export const BookListView = () => {
     const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchInputText(e.target.value);
     }
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const copy = {
-            ...formData
-        };
-        copy[e.target.name] = e.target.value;
-
-        setFormData(copy);
-    };
 
     const handleSubmit = (result: ResponseObject) => {
         if (result.success) {
@@ -135,7 +119,7 @@ export const BookListView = () => {
             }
             {isShowingForm && createPortal(
                 <UIDrawer ref={uiDrawerRef} closeFunc={() => setIsShowingForm(false)} title="Create book">
-                    <CreateBookForm submitFunc={(result) => handleSubmit(result)}></CreateBookForm>
+                    <BookForm submitFunc={(result) => handleSubmit(result)}></BookForm>
                 </UIDrawer>
      
             ,

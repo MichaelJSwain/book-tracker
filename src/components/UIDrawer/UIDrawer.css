@@ -9,11 +9,11 @@
 .ui-drawer-panel {
     height: 100vh;
     width: 100%;
-    padding: 32px 20px 32px 32px;
     background: white;
     position: absolute;
     z-index: 1;
     overflow: scroll;
+    box-sizing: border-box;
 }
 
 .ui-drawer-overlay {
@@ -39,6 +39,7 @@
         bottom: -100%;
         right: 0;
         transition: 0.3s bottom ease;
+        padding: 32px;
     }
     .is-open .ui-drawer-panel{
         bottom: 0;
@@ -50,6 +51,7 @@
         width: 430px;
         right: -430px;
         transition: 0.3s right ease;
+        padding: 32px 20px 32px 32px;
     }
     .is-open .ui-drawer-panel {
         right: 0;

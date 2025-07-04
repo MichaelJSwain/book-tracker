@@ -9,9 +9,11 @@
 .ui-drawer-panel {
     height: 100vh;
     width: 100%;
+    padding: 32px 20px 32px 32px;
     background: white;
     position: absolute;
     z-index: 1;
+    overflow: scroll;
 }
 
 .ui-drawer-overlay {
@@ -19,6 +21,12 @@
     width: 100%;
     opacity: 0;
     transition: 0.3s opacity ease;
+}
+
+.ui-drawer-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
 }
 
 .is-open .ui-drawer-overlay {

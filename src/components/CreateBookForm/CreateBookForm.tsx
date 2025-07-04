@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { FormData, CreateBookFormProps } from "../../types";
 import { createBook } from "../../utils/intro";
+import "./CreateBookForm.css"
 
 export const CreateBookForm = ({ submitFunc }: CreateBookFormProps) => {
         const [formData, setFormData] = useState<FormData>({
@@ -34,26 +35,26 @@ export const CreateBookForm = ({ submitFunc }: CreateBookFormProps) => {
     return (
             <form onSubmit={handleSubmit}>
                     <fieldset>
-                        <label htmlFor="title">Title:</label>
-                        <input placeholder="title" type="text" id="title" name="title" onChange={handleChange} value={formData.title}></input>
+                        <label htmlFor="title">Title*:</label>
+                        <input type="text" id="title" name="title" onChange={handleChange} value={formData.title}></input>
                     </fieldset>
                     <fieldset>
-                        <label htmlFor="author">Author:</label>
-                        <input placeholder="author" type="text" id="author" name="author" onChange={handleChange} value={formData.author}></input>
+                        <label htmlFor="author">Author*:</label>
+                        <input type="text" id="author" name="author" onChange={handleChange} value={formData.author}></input>
                     </fieldset>
                     <fieldset>
-                        <label htmlFor="status">Status:</label>
-                        <input placeholder="status" type="text" id="status" name="status" onChange={handleChange} value={formData.status}></input>
+                        <label htmlFor="status">Status*:</label>
+                        <input type="text" id="status" name="status" onChange={handleChange} value={formData.status}></input>
                     </fieldset>
                     <fieldset>
                         <label htmlFor="imageUrl">Image URL:</label>
                         <input type="text" id="imageUrl" name="imageUrl" onChange={handleChange} value={formData.imageUrl}></input>
                     </fieldset>
                 <fieldset>
-                        <label htmlFor="number_of_pages">Number of pages:</label>
-                        <input placeholder="number of pages" type="text" id="number_of_pages" name="number_of_pages" onChange={handleChange} value={formData.number_of_pages}></input>
+                        <label htmlFor="number_of_pages">Number of pages*:</label>
+                        <input type="text" id="number_of_pages" name="number_of_pages" onChange={handleChange} value={formData.number_of_pages}></input>
                     </fieldset>
-                    <button data-testId="save-book-button" type="submit">Save book</button>
+                    <button data-testId="save-book-button" type="submit" className="form-button">Save book</button>
                 </form>
     )
 }

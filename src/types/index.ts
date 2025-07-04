@@ -1,12 +1,14 @@
 import type { FormEventHandler, MouseEventHandler } from "react"
 import type { UUIDTypes } from "uuid"
 
+export type ReadingStatus = "to read" | "reading" | "read"
+
 export type Book = {
         id: UUIDTypes,
         title: String,
         author: String,
-        status: String,
-        imageUrl: String,
+        status: ReadingStatus,
+        imageUrl: string,
         rating: Number,
         review: String,
         date_added: Date,

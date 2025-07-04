@@ -1,4 +1,5 @@
 import type { BookCardProps } from "../../types"
+import { StatusLabel } from "../StatusLabel/StatusLabel"
 import "./BookCard.css"
 
 export const BookCard = ({ book }: BookCardProps) => {
@@ -9,7 +10,7 @@ export const BookCard = ({ book }: BookCardProps) => {
             </div>
             <div className="text-align-left">
                 <div>
-                    {book.status}
+                    <StatusLabel status={book.status}></StatusLabel>
                 </div>
 
                 <div className="book-details">

@@ -9,10 +9,12 @@ export const UIDrawer = forwardRef<UIDrawerHandle, UIDrawerProps>(
 
         useEffect(() => {
             setIsOpen(true);
+            document.body.style.overflow = 'hidden'
         }, []);
 
         const handleClose = () => {
             setIsOpen(false);
+            document.body.style.overflow = ''
             setTimeout(() => {
                 closeFunc();
             }, 300);
@@ -33,7 +35,7 @@ export const UIDrawer = forwardRef<UIDrawerHandle, UIDrawerProps>(
                         {children}
                     </div>
                 </div>
-                <div className="ui-drawer-overlay"></div>
+                <div onClick={handleClose} className="ui-drawer-overlay"></div>
             </div>
         )
     }

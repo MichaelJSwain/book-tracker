@@ -19,11 +19,13 @@ export type Book = {
 }
 
 export type BookCardProps = {
-        book: Book
+        book: Book,
+        onDelete: (result: ResponseObject) => void
 }
 
 export type BookListProps = {
-        bookList: Book[]
+        bookList: Book[],
+        onDelete: (result: ResponseObject) => void
 }
 
 // export type CreateBookFormProps = {

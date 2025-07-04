@@ -71,6 +71,12 @@ export const BookListView = () => {
         setSortDirection(newSortDirection);
     }
 
+    const onDelete = (result: ResponseObject) => {
+        if (result.success) {
+            getBooks();
+        }
+    }
+
     useEffect(() => {
         getBooks();
     }, []);
@@ -121,7 +127,7 @@ export const BookListView = () => {
                 <div className="mv-16 text-align-left">
                     {filteredBookList.length} books
                 </div>
-                <BookList bookList={filteredBookList}></BookList>
+                <BookList onDelete={onDelete} bookList={filteredBookList}></BookList>
             </div>
             }
             {isShowingForm && createPortal(

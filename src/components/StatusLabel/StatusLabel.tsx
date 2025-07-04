@@ -1,6 +1,5 @@
 import "./StatusLabel.css"
-
-type ReadingStatus = "to read" | "reading" | "read"
+import type { ReadingStatus } from "../../types";
 
 interface StatusLabelProps {
         status: ReadingStatus

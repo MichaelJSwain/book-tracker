@@ -1,0 +1,25 @@
+.status-label {
+    padding: 4px 8px;
+    border-radius: 30px;
+    box-sizing: border-box;
+    width: fit-content;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+.status-label-icon {
+    display: flex;
+}
+.status-label-text {
+    text-transform: capitalize;
+}
+.status-label-to_read {
+    background: pink;
+}
+.status-label-reading {
+    background: lightgreen;
+}
+.status-label-read {
+    background: lightblue;
+}

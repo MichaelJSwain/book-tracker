@@ -1,16 +1,29 @@
 import { useState } from "react";
-import type { FormData, CreateBookFormProps } from "../../types";
-import { createBook } from "../../utils/intro";
+import type { FormData, ResponseObject, Book, ReadingStatus } from "../../types";
+import { createBook, updateBook } from "../../utils/intro";
 import "./BookForm.css"
 
-export const BookForm = ({ submitFunc }: CreateBookFormProps) => {
-        const [formData, setFormData] = useState<FormData>({
+type BookFormAction = "create" | "update"
+
+type InitialBookFormValues = {title: string, author: string, status: ReadingStatus, imageUrl: string, number_of_pages: number}
+
+const defaultValues = {
             title: "",
             author: "",
-            status: "",
+            status: "to read",
             imageUrl: "",
             number_of_pages: 0
-        });
+        }
+
+interface BookFormProps {
+    action: BookFormAction,
+    submitFunc: (result: ResponseObject<Book | Book[] | null>) => void,
+    initialValues?: InitialBookFormValues,
+    book?: Book
+}
+
+export const BookForm = ({ action, submitFunc, initialValues = defaultValues, book }: BookFormProps) => {
+        const [formData, setFormData] = useState<FormData>(initialValues);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const copy = {
@@ -27,9 +40,30 @@ export const BookForm = ({ submitFunc }: CreateBookFormProps) => {
 
             const { title, author, status, imageUrl, number_of_pages } = formData;
         
-            const result = createBook(title, author, status, imageUrl, number_of_pages);
-
-            submitFunc(result);
+            if (action === "create") {
+                console.log("create|");
+                const result = createBook(title, author, status, imageUrl, number_of_pages);
+                submitFunc(result);
+            } else if (action === "update") {
+                console.log("update|");
+                if (!!book) {
+                    const updatedBook = {
+                        ...book,
+                        title,
+                        author,
+                        status,
+                        imageUrl,
+                        number_of_pages
+                    }
+                    
+                    const result = updateBook(updatedBook);
+                    console.log("update result =>> ", result);
+                    submitFunc(result);
+                }
+                // const result = createBook(title, author, status, imageUrl, number_of_pages);
+                // submitFunc(result);
+            }
+   
         }
 
     return (

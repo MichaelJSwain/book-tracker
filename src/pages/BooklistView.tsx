@@ -77,6 +77,12 @@ export const BookListView = () => {
         }
     }
 
+    const onUpdate = (result: ResponseObject) => {
+        if (result.success) {
+            getBooks();
+        }
+    }
+
     useEffect(() => {
         getBooks();
     }, []);
@@ -127,12 +133,12 @@ export const BookListView = () => {
                 <div className="mv-16 text-align-left">
                     {filteredBookList.length} books
                 </div>
-                <BookList onDelete={onDelete} bookList={filteredBookList}></BookList>
+                <BookList onDelete={onDelete} onUpdate={onUpdate} bookList={filteredBookList}></BookList>
             </div>
             }
             {isShowingForm && createPortal(
                 <UIDrawer ref={uiDrawerRef} closeFunc={() => setIsShowingForm(false)} title="Create book">
-                    <BookForm submitFunc={(result) => handleSubmit(result)}></BookForm>
+                    <BookForm action="create" submitFunc={(result) => handleSubmit(result)}></BookForm>
                 </UIDrawer>
      
             ,

@@ -5,27 +5,23 @@ export type ReadingStatus = "to read" | "reading" | "read"
 
 export type Book = {
         id: UUIDTypes,
-        title: String,
-        author: String,
+        title: string,
+        author: string,
         status: ReadingStatus,
         imageUrl: string,
-        rating: Number,
-        review: String,
+        rating: number,
+        review: string,
         date_added: Date,
         date_updated: Date | null,
         date_read: Date | null,
-        number_of_pages: Number,
-        read_count: Number
+        number_of_pages: number,
+        read_count: number
 }
 
 export type BookCardProps = {
         book: Book,
-        onDelete: (result: ResponseObject) => void
-}
-
-export type BookListProps = {
-        bookList: Book[],
-        onDelete: (result: ResponseObject) => void
+        onDelete: (result: ResponseObject) => void,
+        onUpdate: (result: ResponseObject) => void
 }
 
 // export type CreateBookFormProps = {
@@ -67,8 +63,4 @@ export type ResponseObject<T = Book | Book[] | null> = {
     data?: T;
     success: boolean,
     message: string
-}
-
-export interface CreateBookFormProps {
-        submitFunc: (result: ResponseObject<Book | Book[] | null>) => void
 }

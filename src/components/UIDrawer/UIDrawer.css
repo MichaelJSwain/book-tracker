@@ -1,0 +1,59 @@
+.ui-drawer-container {
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    right: 0;
+    top: 0;
+}
+
+.ui-drawer-panel {
+    height: 100vh;
+    width: 100%;
+    background: white;
+    position: absolute;
+    z-index: 1;
+    overflow: scroll;
+    box-sizing: border-box;
+}
+
+.ui-drawer-overlay {
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: 0.3s opacity ease;
+}
+
+.ui-drawer-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.is-open .ui-drawer-overlay {
+    opacity: 1;
+    background: rgba(0, 0, 0, .5)
+}
+
+@media only screen and (max-width: 767px) {
+    .ui-drawer-panel {
+        bottom: -100%;
+        right: 0;
+        transition: 0.3s bottom ease;
+        padding: 32px;
+    }
+    .is-open .ui-drawer-panel{
+        bottom: 0;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .ui-drawer-panel {
+        width: 430px;
+        right: -430px;
+        transition: 0.3s right ease;
+        padding: 32px 20px 32px 32px;
+    }
+    .is-open .ui-drawer-panel {
+        right: 0;
+    }
+}

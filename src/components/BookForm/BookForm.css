@@ -1,0 +1,28 @@
+fieldset {
+  border: none;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+fieldset:not(:last-of-type) {
+    margin-bottom: 15px;
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+input {
+    height: 42px;
+    padding: 10px;
+    box-sizing: border-box
+}
+
+.form-button {
+    width: 100%;
+    background: black;
+    margin-top: 20px;
+    color: white;
+    height: 42px;
+}

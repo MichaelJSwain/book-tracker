@@ -8,6 +8,7 @@ import { TooltipGroup } from "../components/TooltipGroup/TooltipGroup.tsx";
 import { createPortal } from "react-dom";
 import { UIDrawer } from "../components/UIDrawer/UIDrawer.tsx";
 import { BookForm } from "../components/BookForm/BookForm.tsx";
+import { TooltipItem } from "../components/TooltipItem/TooltipItem.tsx";
 
 const portalElem = document.getElementById('portal') as HTMLElement;
 
@@ -59,6 +60,7 @@ export const BookListView = () => {
         const sortOption = e.currentTarget.textContent?.toLowerCase();
         if (sortOption) {
             setSortOption(sortOption);
+            setIsShowingTooltip(false);
         } else {
             // handle error...
         }
@@ -104,7 +106,12 @@ export const BookListView = () => {
                             <button onClick={() => setIsShowingTooltip(!isShowingTooltip)}>Sort by: {sortOption}</button>
                             {
                                 isShowingTooltip && 
-                                <Tooltip clickFunc={handleSortOption}></Tooltip>
+                                <Tooltip>
+                                    <TooltipItem clickFunc={handleSortOption}>Title</TooltipItem>
+                                    <TooltipItem clickFunc={handleSortOption}>Author</TooltipItem>
+                                    <TooltipItem clickFunc={handleSortOption}>Number of pages</TooltipItem>
+                                    <TooltipItem clickFunc={handleSortOption}>Rating</TooltipItem>
+                                </Tooltip>
                             }
                         </TooltipGroup>
                     </ClickAwayListener>

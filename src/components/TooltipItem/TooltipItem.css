@@ -1,0 +1,7 @@
+.tooltip-item {
+    padding: 10px;
+}
+
+.tooltip-item:hover {
+    background: lightblue;
+}

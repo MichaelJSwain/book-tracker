@@ -40,10 +40,6 @@ export interface TooltipGroupProps {
   children: React.ReactNode;
 }
 
-export type TooltipProps = {
-        clickFunc: React.MouseEventHandler<HTMLLIElement>
-}
-
 export type FormData = {
     title: string,
     author: string,

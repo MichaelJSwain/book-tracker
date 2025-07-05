@@ -6,6 +6,10 @@
     grid-template-columns: 80px auto;
     gap: 16px;
 }
+.book-card-header {
+    display: flex;
+    justify-content: space-between;
+}
 
 .book-img {
     height: 100%;

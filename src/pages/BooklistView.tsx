@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type ChangeEvent } from "react"
-import { createBook, fetchBooks, filterBooks, sortBooks } from "../utils/intro";
-import type { Book, FormData, ResponseObject, SortDirection, UIDrawerHandle } from "../types/index";
+import { fetchBooks, filterBooks, sortBooks } from "../utils/intro";
+import type { Book, ResponseObject, SortDirection, UIDrawerHandle } from "../types/index";
 import { BookList } from "../components/BookList/BookList";
 import { ClickAwayListener } from "../components/ClickAwayListener/ClickAwayListener.tsx";
 import { Tooltip } from "../components/Tooltip/Tooltip.tsx";
@@ -9,6 +9,8 @@ import { createPortal } from "react-dom";
 import { UIDrawer } from "../components/UIDrawer/UIDrawer.tsx";
 import { BookForm } from "../components/BookForm/BookForm.tsx";
 import { TooltipItem } from "../components/TooltipItem/TooltipItem.tsx";
+import { LoadingView } from "../components/LoadingView/LoadingView.tsx";
+import { useLoading } from "../hooks/useLoading/useLoading.ts";
 
 const portalElem = document.getElementById('portal') as HTMLElement;
 
@@ -17,16 +19,15 @@ export const BookListView = () => {
     const [filteredBookList, setFilteredBookList] = useState<Array<Book>>([]);
     const [isShowingError, setIsShowingError] = useState<Boolean>(false);
     const [isShowingForm, setIsShowingForm] = useState<Boolean>(false);
-    const [isLoading, setIsLoading] = useState<Boolean>(false);
     const [searchInputText, setSearchInputText] = useState<string>("");
     const [isShowingTooltip, setIsShowingTooltip] = useState<Boolean>(false);
     const [sortOption, setSortOption] = useState<string>("title");
     const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
+    const { isLoading, withLoading } = useLoading();
     const uiDrawerRef = useRef<UIDrawerHandle>(null);
 
     const getBooks = async () => {
-        
-        const { data: books, success } = await fetchBooks();
+        const { data: books, success } = await withLoading(fetchBooks);
         console.log("fetched books = ", books, success);
         if (success && books && Array.isArray(books)) {
             setBookList(books);
@@ -108,7 +109,7 @@ export const BookListView = () => {
                 </div>
             </div>
 
-            {isLoading ? <div>Loading...</div> :
+            {isLoading ? <LoadingView></LoadingView> :
                   <div>
                 <div className="flex flex-hr">
                     <input className="search-input" placeholder="Search for a book..." onChange={handleSearchInputChange} value={searchInputText}></input>

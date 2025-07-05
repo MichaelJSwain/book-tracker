@@ -9,6 +9,7 @@ import { createPortal } from "react-dom";
 import { UIDrawer } from "../components/UIDrawer/UIDrawer.tsx";
 import { BookForm } from "../components/BookForm/BookForm.tsx";
 import { TooltipItem } from "../components/TooltipItem/TooltipItem.tsx";
+import { LoadingView } from "../components/LoadingView/LoadingView.tsx";
 
 const portalElem = document.getElementById('portal') as HTMLElement;
 
@@ -108,7 +109,7 @@ export const BookListView = () => {
                 </div>
             </div>
 
-            {isLoading ? <div>Loading...</div> :
+            {!isLoading ? <LoadingView></LoadingView> :
                   <div>
                 <div className="flex flex-hr">
                     <input className="search-input" placeholder="Search for a book..." onChange={handleSearchInputChange} value={searchInputText}></input>

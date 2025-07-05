@@ -20,7 +20,6 @@ export const BookListView = () => {
     const [filteredBookList, setFilteredBookList] = useState<Array<Book>>([]);
     const [isShowingError, setIsShowingError] = useState<Boolean>(false);
     const [isShowingForm, setIsShowingForm] = useState<Boolean>(false);
-    const [searchInputText, setSearchInputText] = useState<string>("");
     const [isShowingTooltip, setIsShowingTooltip] = useState<Boolean>(false);
     const [sortOption, setSortOption] = useState<string>("title");
     const [sortDirection, setSortDirection] = useState<SortDirection>("asc");

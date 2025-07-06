@@ -12,6 +12,7 @@ import { TooltipItem } from "../components/TooltipItem/TooltipItem.tsx";
 import { LoadingView } from "../components/LoadingView/LoadingView.tsx";
 import { useLoading } from "../hooks/useLoading/useLoading.ts";
 import { SearchInput } from "../components/SearchInput/SearchInput.tsx";
+import { Toolbar } from "../components/Toolbar/Toolbar.tsx";
 
 const portalElem = document.getElementById('portal') as HTMLElement;
 
@@ -107,7 +108,8 @@ export const BookListView = () => {
 
             {isLoading ? <LoadingView></LoadingView> :
                   <div>
-                <div className="flex flex-hr">
+                
+                <Toolbar>
                     <SearchInput placeholder="Search for a book..." onChange={handleSearchInputChange}></SearchInput>
                     <ClickAwayListener onClickAway={() => setIsShowingTooltip(false)}>
                         <TooltipGroup>
@@ -124,7 +126,7 @@ export const BookListView = () => {
                         </TooltipGroup>
                     </ClickAwayListener>
                     <button onClick={handleSortDirection}>{sortDirection}</button>
-                </div>
+                </Toolbar>
 
                 <div className="mv-16 text-align-left">
                     {filteredBookList.length} books

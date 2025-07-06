@@ -1,0 +1,26 @@
+.button-primary {
+    background: blue;
+    color: white;
+    font-weight: bold;
+}
+
+.button-ghost {
+    background: transparent;
+}
+
+.button-primary,
+.button-ghost:hover {
+    color: white;
+    font-weight: bold;
+}
+
+.button-ghost:hover {
+    background: lightgrey;
+}
+
+.form-button {
+    width: 100%;
+    margin-top: 20px;
+    color: white;
+    height: 42px;
+}

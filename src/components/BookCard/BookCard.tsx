@@ -10,6 +10,7 @@ import { deleteBook, updateBook } from "../../utils/intro"
 import { UIDrawer } from "../UIDrawer/UIDrawer"
 import { BookForm } from "../BookForm/BookForm"
 import { createPortal } from "react-dom"
+import { Button } from "../Button/Button"
 
 const portalElem = document.getElementById('portal') as HTMLElement;
 
@@ -52,7 +53,7 @@ export const BookCard = ({ book, onDelete, onUpdate }: BookCardProps) => {
                     <StatusLabel status={book.status}></StatusLabel>
                     <ClickAwayListener onClickAway={() => setIsShowingTooltip(false)}>
                         <TooltipGroup>
-                            <button onClick={() => setIsShowingTooltip(!isShowingTooltip)}>...</button>
+                            <Button onClick={() => setIsShowingTooltip(!isShowingTooltip)} variant="ghost" type="button">...</Button>
                             {
                                 isShowingTooltip && 
                                 <Tooltip>

@@ -131,9 +131,6 @@ export const BookListView = () => {
                     </SortControls>
                 </Toolbar>
 
-                <div className="mv-16 text-align-left">
-                    {filteredBookList.length} books
-                </div>
                 <BookList onDelete={onDelete} onUpdate={onUpdate} bookList={filteredBookList}></BookList>
             </div>
             }

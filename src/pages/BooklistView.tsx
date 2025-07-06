@@ -13,6 +13,7 @@ import { LoadingView } from "../components/LoadingView/LoadingView.tsx";
 import { useLoading } from "../hooks/useLoading/useLoading.ts";
 import { SearchInput } from "../components/SearchInput/SearchInput.tsx";
 import { Toolbar } from "../components/Toolbar/Toolbar.tsx";
+import { SortControls } from "../components/SortControls/SortControls.tsx";
 
 const portalElem = document.getElementById('portal') as HTMLElement;
 
@@ -111,21 +112,23 @@ export const BookListView = () => {
                 
                 <Toolbar>
                     <SearchInput placeholder="Search for a book..." onChange={handleSearchInputChange}></SearchInput>
-                    <ClickAwayListener onClickAway={() => setIsShowingTooltip(false)}>
-                        <TooltipGroup>
-                            <button onClick={() => setIsShowingTooltip(!isShowingTooltip)}>Sort by: {sortOption}</button>
-                            {
-                                isShowingTooltip && 
-                                <Tooltip>
-                                    <TooltipItem clickFunc={handleSortOption}>Title</TooltipItem>
-                                    <TooltipItem clickFunc={handleSortOption}>Author</TooltipItem>
-                                    <TooltipItem clickFunc={handleSortOption}>Number of pages</TooltipItem>
-                                    <TooltipItem clickFunc={handleSortOption}>Rating</TooltipItem>
-                                </Tooltip>
-                            }
-                        </TooltipGroup>
-                    </ClickAwayListener>
-                    <button onClick={handleSortDirection}>{sortDirection}</button>
+                    <SortControls>
+                        <ClickAwayListener onClickAway={() => setIsShowingTooltip(false)}>
+                            <TooltipGroup>
+                                <button onClick={() => setIsShowingTooltip(!isShowingTooltip)}>Sort by: {sortOption}</button>
+                                {
+                                    isShowingTooltip && 
+                                    <Tooltip>
+                                        <TooltipItem clickFunc={handleSortOption}>Title</TooltipItem>
+                                        <TooltipItem clickFunc={handleSortOption}>Author</TooltipItem>
+                                        <TooltipItem clickFunc={handleSortOption}>Number of pages</TooltipItem>
+                                        <TooltipItem clickFunc={handleSortOption}>Rating</TooltipItem>
+                                    </Tooltip>
+                                }
+                            </TooltipGroup>
+                        </ClickAwayListener>
+                        <button onClick={handleSortDirection}>{sortDirection}</button>
+                    </SortControls>
                 </Toolbar>
 
                 <div className="mv-16 text-align-left">

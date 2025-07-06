@@ -11,6 +11,7 @@ import { BookForm } from "../components/BookForm/BookForm.tsx";
 import { TooltipItem } from "../components/TooltipItem/TooltipItem.tsx";
 import { LoadingView } from "../components/LoadingView/LoadingView.tsx";
 import { useLoading } from "../hooks/useLoading/useLoading.ts";
+import { SearchInput } from "../components/SearchInput/SearchInput.tsx";
 
 const portalElem = document.getElementById('portal') as HTMLElement;
 
@@ -19,7 +20,6 @@ export const BookListView = () => {
     const [filteredBookList, setFilteredBookList] = useState<Array<Book>>([]);
     const [isShowingError, setIsShowingError] = useState<Boolean>(false);
     const [isShowingForm, setIsShowingForm] = useState<Boolean>(false);
-    const [searchInputText, setSearchInputText] = useState<string>("");
     const [isShowingTooltip, setIsShowingTooltip] = useState<Boolean>(false);
     const [sortOption, setSortOption] = useState<string>("title");
     const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
@@ -28,15 +28,16 @@ export const BookListView = () => {
 
     const getBooks = async () => {
         const { data: books, success } = await withLoading(fetchBooks);
-        console.log("fetched books = ", books, success);
+
         if (success && books && Array.isArray(books)) {
             setBookList(books);
             setFilteredBookList(books);
         }
     }
 
-    const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchInputText(e.target.value);
+    const handleSearchInputChange = (inputText: string) => {
+        const filtered = filterBooks(bookList, inputText);
+        setFilteredBookList(filtered);
     }
 
     const handleSubmit = (result: ResponseObject) => {
@@ -88,11 +89,6 @@ export const BookListView = () => {
         getBooks();
     }, []);
 
-    useEffect(() => {
-        console.log("search input text effect running")
-        const filtered = filterBooks(bookList, searchInputText);
-        setFilteredBookList(filtered);
-    }, [searchInputText]);
 
     useEffect(() => {
         handleSortBooks();
@@ -112,8 +108,7 @@ export const BookListView = () => {
             {isLoading ? <LoadingView></LoadingView> :
                   <div>
                 <div className="flex flex-hr">
-                    <input className="search-input" placeholder="Search for a book..." onChange={handleSearchInputChange} value={searchInputText}></input>
-                    
+                    <SearchInput placeholder="Search for a book..." onChange={handleSearchInputChange}></SearchInput>
                     <ClickAwayListener onClickAway={() => setIsShowingTooltip(false)}>
                         <TooltipGroup>
                             <button onClick={() => setIsShowingTooltip(!isShowingTooltip)}>Sort by: {sortOption}</button>

@@ -107,33 +107,34 @@ export const BookListView = () => {
                 </div>
             </div>
 
-            {isLoading ? <LoadingView></LoadingView> :
-                  <div>
-                
-                <Toolbar>
-                    <SearchInput placeholder="Search for a book..." onChange={handleSearchInputChange}></SearchInput>
-                    <SortControls>
-                        <ClickAwayListener onClickAway={() => setIsShowingTooltip(false)}>
-                            <TooltipGroup>
-                                <button onClick={() => setIsShowingTooltip(!isShowingTooltip)}>Sort by: {sortOption}</button>
-                                {
-                                    isShowingTooltip && 
-                                    <Tooltip>
-                                        <TooltipItem clickFunc={handleSortOption}>Title</TooltipItem>
-                                        <TooltipItem clickFunc={handleSortOption}>Author</TooltipItem>
-                                        <TooltipItem clickFunc={handleSortOption}>Number of pages</TooltipItem>
-                                        <TooltipItem clickFunc={handleSortOption}>Rating</TooltipItem>
-                                    </Tooltip>
-                                }
-                            </TooltipGroup>
-                        </ClickAwayListener>
-                        <button onClick={handleSortDirection}>{sortDirection}</button>
-                    </SortControls>
-                </Toolbar>
+            {isLoading && <LoadingView></LoadingView>}
 
-                <BookList onDelete={onDelete} onUpdate={onUpdate} bookList={filteredBookList}></BookList>
-            </div>
-            }
+            {!!filteredBookList.length && 
+                <div>
+                    <Toolbar>
+                        <SearchInput placeholder="Search for a book..." onChange={handleSearchInputChange}></SearchInput>
+                        <SortControls>
+                            <ClickAwayListener onClickAway={() => setIsShowingTooltip(false)}>
+                                <TooltipGroup>
+                                    <button onClick={() => setIsShowingTooltip(!isShowingTooltip)}>Sort by: {sortOption}</button>
+                                    {
+                                        isShowingTooltip && 
+                                        <Tooltip>
+                                            <TooltipItem clickFunc={handleSortOption}>Title</TooltipItem>
+                                            <TooltipItem clickFunc={handleSortOption}>Author</TooltipItem>
+                                            <TooltipItem clickFunc={handleSortOption}>Number of pages</TooltipItem>
+                                            <TooltipItem clickFunc={handleSortOption}>Rating</TooltipItem>
+                                        </Tooltip>
+                                    }
+                                </TooltipGroup>
+                            </ClickAwayListener>
+                            <button onClick={handleSortDirection}>{sortDirection}</button>
+                        </SortControls>
+                    </Toolbar>
+
+                    <BookList onDelete={onDelete} onUpdate={onUpdate} bookList={filteredBookList}></BookList>
+                </div>}
+            
             {isShowingForm && createPortal(
                 <UIDrawer ref={uiDrawerRef} closeFunc={() => setIsShowingForm(false)} title="Create book">
                     <BookForm action="create" submitFunc={(result) => handleSubmit(result)}></BookForm>

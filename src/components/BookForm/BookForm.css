@@ -18,11 +18,3 @@ input {
     padding: 10px;
     box-sizing: border-box
 }
-
-.form-button {
-    width: 100%;
-    background: black;
-    margin-top: 20px;
-    color: white;
-    height: 42px;
-}

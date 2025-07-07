@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { FormData, ResponseObject, Book, ReadingStatus } from "../../types";
 import { createBook, updateBook } from "../../utils/intro";
 import "./BookForm.css"
+import { Button } from "../Button/Button";
 
 type BookFormAction = "create" | "update"
 
@@ -88,7 +89,7 @@ export const BookForm = ({ action, submitFunc, initialValues = defaultValues, bo
                         <label htmlFor="number_of_pages">Number of pages*:</label>
                         <input type="text" id="number_of_pages" name="number_of_pages" onChange={handleChange} value={formData.number_of_pages}></input>
                     </fieldset>
-                    <button data-testId="save-book-button" type="submit" className="form-button">Save book</button>
+                    <Button variant="primary" type="submit" dataTestId="save-book-button" classList="form-button">Save book</Button>
                 </form>
     )
 }

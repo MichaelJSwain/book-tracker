@@ -14,6 +14,7 @@ import { useLoading } from "../hooks/useLoading/useLoading.ts";
 import { SearchInput } from "../components/SearchInput/SearchInput.tsx";
 import { Toolbar } from "../components/Toolbar/Toolbar.tsx";
 import { SortControls } from "../components/SortControls/SortControls.tsx";
+import { Button } from "../components/Button/Button.tsx";
 
 const portalElem = document.getElementById('portal') as HTMLElement;
 
@@ -103,7 +104,7 @@ export const BookListView = () => {
                     <h1>My Books</h1>
                 </div>
                 <div>
-                    <button onClick={() => setIsShowingForm(true)}>Add book</button>
+                     <Button onClick={() => setIsShowingForm(true)} variant="primary" type="button">Add book</Button>
                 </div>
             </div>
 
@@ -116,7 +117,7 @@ export const BookListView = () => {
                         <SortControls>
                             <ClickAwayListener onClickAway={() => setIsShowingTooltip(false)}>
                                 <TooltipGroup>
-                                    <button onClick={() => setIsShowingTooltip(!isShowingTooltip)}>Sort by: {sortOption}</button>
+                                    <Button onClick={() => setIsShowingTooltip(!isShowingTooltip)} variant="ghost" type="button">Sort by: {sortOption}</Button>
                                     {
                                         isShowingTooltip && 
                                         <Tooltip>
@@ -128,7 +129,7 @@ export const BookListView = () => {
                                     }
                                 </TooltipGroup>
                             </ClickAwayListener>
-                            <button onClick={handleSortDirection}>{sortDirection}</button>
+                            <Button onClick={handleSortDirection} variant="ghost" type="button">{sortDirection}</Button>
                         </SortControls>
                     </Toolbar>
 
@@ -145,7 +146,14 @@ export const BookListView = () => {
             )
             }
 
-            {isShowingError && <div data-testId="error-message" className="error-message"><button onClick={() => setIsShowingError(false)}>X</button><div><p>Error!</p></div></div>}
+            {isShowingError && 
+                <div data-testId="error-message" className="error-message">
+                    <Button onClick={() => setIsShowingError(false)} variant="ghost" type="button">
+                        <svg width="0.7857142857142857em" height="1em" viewBox="0 0 11 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M5.25 6.14844L8.85938 2.51172L9.48828 3.14062L5.85156 6.75L9.48828 10.3867L8.85938 11.0156L5.25 7.37891L1.61328 11.0156L0.984375 10.3867L4.62109 6.75L0.984375 3.14062L1.61328 2.51172L5.25 6.14844Z" fill="#1B1D1F"></path></svg>
+                    </Button>
+                    <div><p>Error!</p>
+                    </div>
+                </div>}
         </>
     )
 }

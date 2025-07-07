@@ -15,6 +15,7 @@ import { SearchInput } from "../components/SearchInput/SearchInput.tsx";
 import { Toolbar } from "../components/Toolbar/Toolbar.tsx";
 import { SortControls } from "../components/SortControls/SortControls.tsx";
 import { Button } from "../components/Button/Button.tsx";
+import { PageHeader } from "../components/PageHeader/PageHeader.tsx";
 
 const portalElem = document.getElementById('portal') as HTMLElement;
 
@@ -99,14 +100,7 @@ export const BookListView = () => {
 
     return (
         <>
-            <div className="page-header">
-                <div>
-                    <h1>My Books</h1>
-                </div>
-                <div>
-                     <Button onClick={() => setIsShowingForm(true)} variant="primary" type="button">Add book</Button>
-                </div>
-            </div>
+            <PageHeader title="My Books" button={<Button onClick={() => setIsShowingForm(true)} variant="primary" type="button">Add book</Button>}></PageHeader>
 
             {isLoading && <LoadingView></LoadingView>}
 
@@ -139,11 +133,8 @@ export const BookListView = () => {
             {isShowingForm && createPortal(
                 <UIDrawer ref={uiDrawerRef} closeFunc={() => setIsShowingForm(false)} title="Create book">
                     <BookForm action="create" submitFunc={(result) => handleSubmit(result)}></BookForm>
-                </UIDrawer>
-     
-            ,
-            portalElem
-            )
+                </UIDrawer>, 
+                portalElem)
             }
 
             {isShowingError && 

@@ -1,13 +1,3 @@
-//  filteredBookList,
-//   sortOption,
-//   sortDirection,
-//   handleSearchInputChange,
-//   handleSortOption,
-//   handleSortDirection,
-//   onDelete,
-//   onUpdate,
-//   refreshBooks
-
 import { useState, useEffect } from "react";
 import type { Book, SortDirection, ResponseObject } from "../types";
 import { useLoading } from "./useLoading/useLoading";
@@ -42,7 +32,6 @@ export const useBookData = () => {
         const sortOption = e.currentTarget.textContent?.toLowerCase();
         if (sortOption) {
             setSortOption(sortOption);
-            setIsShowingTooltip(false);
         } else {
             // handle error...
         }

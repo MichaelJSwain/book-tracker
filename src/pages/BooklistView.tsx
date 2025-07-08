@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { BookList } from "../components/BookList/BookList";
 import { ClickAwayListener } from "../components/ClickAwayListener/ClickAwayListener.tsx";
 import { Tooltip } from "../components/Tooltip/Tooltip.tsx";
@@ -14,12 +14,15 @@ import { SortControls } from "../components/SortControls/SortControls.tsx";
 import { Button } from "../components/Button/Button.tsx";
 import { PageHeader } from "../components/PageHeader/PageHeader.tsx";
 import { Modal } from "../components/Modal/Modal.tsx";
-import { useBookList } from "../hooks/useBookList.ts";
 import { useBookData } from "../hooks/useBookData.ts";
-
+import type { UIDrawerHandle, ResponseObject } from "../types/index.ts";{}
 const portalElem = document.getElementById('portal') as HTMLElement;
 
 export const BookListView = () => {
+    const [isShowingError, setIsShowingError] = useState(false);
+    const [isShowingTooltip, setIsShowingTooltip] = useState<Boolean>(false);
+    const uiDrawerRef = useRef<UIDrawerHandle>(null);
+    const [isShowingForm, setIsShowingForm] = useState(false);
 
     const {
         filteredBookList,
@@ -34,17 +37,19 @@ export const BookListView = () => {
         getBooks
     } = useBookData();
 
-    const {
-        isShowingError,
-        uiDrawerRef,
-        isShowingTooltip,
-        setIsShowingTooltip,
-        handleSubmit,
-        setIsShowingError
-    } = useBookList({ refresh: getBooks });
+    const handleSubmit = (result: ResponseObject) => {
+        if (result.success) {
+            getBooks();
+            uiDrawerRef.current?.close();
+        } else {
+            setIsShowingError(true);
+        }
+    };
 
-
-    const [isShowingForm, setIsShowingForm] = useState(false);
+    const onSort = (e: React.MouseEvent<HTMLLIElement>) => {
+        setIsShowingTooltip(false);
+        handleSortOption(e);
+    }
 
     return (
         <>
@@ -63,10 +68,10 @@ export const BookListView = () => {
                                     {
                                         isShowingTooltip && 
                                         <Tooltip>
-                                            <TooltipItem clickFunc={handleSortOption}>Title</TooltipItem>
-                                            <TooltipItem clickFunc={handleSortOption}>Author</TooltipItem>
-                                            <TooltipItem clickFunc={handleSortOption}>Number of pages</TooltipItem>
-                                            <TooltipItem clickFunc={handleSortOption}>Rating</TooltipItem>
+                                            <TooltipItem clickFunc={onSort}>Title</TooltipItem>
+                                            <TooltipItem clickFunc={onSort}>Author</TooltipItem>
+                                            <TooltipItem clickFunc={onSort}>Number of pages</TooltipItem>
+                                            <TooltipItem clickFunc={onSort}>Rating</TooltipItem>
                                         </Tooltip>
                                     }
                                 </TooltipGroup>

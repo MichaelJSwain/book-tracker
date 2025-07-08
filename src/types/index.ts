@@ -18,12 +18,6 @@ export type Book = {
         read_count: number
 }
 
-export type BookCardProps = {
-        book: Book,
-        onDelete: (result: ResponseObject) => void,
-        onUpdate: (result: ResponseObject) => void
-}
-
 // export type CreateBookFormProps = {
 //         closeFunc: MouseEventHandler<HTMLButtonElement>,
 //         submitFunc: FormEventHandler<HTMLFormElement>

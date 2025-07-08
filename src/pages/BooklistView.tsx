@@ -20,23 +20,29 @@ import { useBookData } from "../hooks/useBookData.ts";
 const portalElem = document.getElementById('portal') as HTMLElement;
 
 export const BookListView = () => {
+
     const {
         filteredBookList,
         sortOption,
         sortDirection,
         isLoading,
-        isShowingError,
-        uiDrawerRef,
-        isShowingTooltip,
-        setIsShowingTooltip,
         handleSearchInputChange,
-        handleSubmit,
         handleSortOption,
         handleSortDirection,
         onDelete,
         onUpdate,
+        getBooks
+    } = useBookData();
+
+    const {
+        isShowingError,
+        uiDrawerRef,
+        isShowingTooltip,
+        setIsShowingTooltip,
+        handleSubmit,
         setIsShowingError
-    } = useBookList();
+    } = useBookList({ refresh: getBooks });
+
 
     const [isShowingForm, setIsShowingForm] = useState(false);
 

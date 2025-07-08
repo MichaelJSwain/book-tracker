@@ -4,14 +4,18 @@ import { fetchBooks, filterBooks, sortBooks } from "../utils/intro";
 import { useLoading } from "../hooks/useLoading/useLoading.ts";
 import type { Book, ResponseObject, SortDirection, UIDrawerHandle } from "../types/index";
 
-export function useBookList() {
+interface UseBookListProps {
+    refresh: () => Promise<void>
+}
+
+export function useBookList({ refresh }: UseBookListProps) {
     const [bookList, setBookList] = useState<Array<Book>>([]);
     const [filteredBookList, setFilteredBookList] = useState<Array<Book>>([]);
     const [isShowingError, setIsShowingError] = useState(false);
     const [sortOption, setSortOption] = useState<string>("title");
     const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
     const [isShowingTooltip, setIsShowingTooltip] = useState<Boolean>(false);
-    const { isLoading, withLoading } = useLoading();
+    // const { isLoading, withLoading } = useLoading();
     const uiDrawerRef = useRef<UIDrawerHandle>(null);
 
     // const getBooks = async () => {
@@ -34,7 +38,7 @@ export function useBookList() {
 
     const handleSubmit = (result: ResponseObject) => {
         if (result.success) {
-            getBooks();
+            refresh();
             uiDrawerRef.current?.close();
         } else {
             setIsShowingError(true);
@@ -63,29 +67,20 @@ export function useBookList() {
     //     if (result.success) getBooks();
     // };
 
-    useEffect(() => {
-        getBooks();
-    }, []);
+    // useEffect(() => {
+    //     getBooks();
+    // }, []);
 
-    useEffect(() => {
-        handleSortBooks();
-    }, [sortOption, sortDirection]);
+    // useEffect(() => {
+    //     handleSortBooks();
+    // }, [sortOption, sortDirection]);
 
     return {
-        filteredBookList,
-        sortOption,
-        sortDirection,
-        isLoading,
         isShowingError,
         uiDrawerRef,
         isShowingTooltip,
         setIsShowingTooltip,
-        handleSearchInputChange,
         handleSubmit,
-        handleSortOption,
-        handleSortDirection,
-        onDelete,
-        onUpdate,
         setIsShowingError,
     };
 }

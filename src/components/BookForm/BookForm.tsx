@@ -14,7 +14,7 @@ const defaultValues = {
             status: "to read",
             imageUrl: "",
             number_of_pages: 0
-        }
+        } as const
 
 interface BookFormProps {
     action: BookFormAction,

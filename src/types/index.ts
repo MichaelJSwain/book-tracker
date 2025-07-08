@@ -29,7 +29,7 @@ export interface TooltipGroupProps {
 export type FormData = {
     title: string,
     author: string,
-    status: string,
+    status: ReadingStatus,
     imageUrl: string,
     number_of_pages: number
 }

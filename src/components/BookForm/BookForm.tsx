@@ -58,11 +58,8 @@ export const BookForm = ({ action, submitFunc, initialValues = defaultValues, bo
                     }
                     
                     const result = updateBook(updatedBook);
-                    console.log("update result =>> ", result);
                     submitFunc(result);
                 }
-                // const result = createBook(title, author, status, imageUrl, number_of_pages);
-                // submitFunc(result);
             }
    
         }

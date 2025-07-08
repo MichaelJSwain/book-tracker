@@ -15,6 +15,7 @@ import { Button } from "../components/Button/Button.tsx";
 import { PageHeader } from "../components/PageHeader/PageHeader.tsx";
 import { Modal } from "../components/Modal/Modal.tsx";
 import { useBookList } from "../hooks/useBookList.ts";
+import { useBookData } from "../hooks/useBookData.ts";
 
 const portalElem = document.getElementById('portal') as HTMLElement;
 

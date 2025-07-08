@@ -14,23 +14,23 @@ export function useBookList() {
     const { isLoading, withLoading } = useLoading();
     const uiDrawerRef = useRef<UIDrawerHandle>(null);
 
-    const getBooks = async () => {
-        const { data: books, success } = await withLoading(fetchBooks);
-        if (success && books && Array.isArray(books)) {
-            setBookList(books);
-            setFilteredBookList(books);
-        }
-    };
+    // const getBooks = async () => {
+    //     const { data: books, success } = await withLoading(fetchBooks);
+    //     if (success && books && Array.isArray(books)) {
+    //         setBookList(books);
+    //         setFilteredBookList(books);
+    //     }
+    // };
 
-    const handleSearchInputChange = (inputText: string) => {
-        const filtered = filterBooks(bookList, inputText);
-        setFilteredBookList(filtered);
-    };
+    // const handleSearchInputChange = (inputText: string) => {
+    //     const filtered = filterBooks(bookList, inputText);
+    //     setFilteredBookList(filtered);
+    // };
 
-    const handleSortBooks = () => {
-        const sortedBooks = sortBooks(filteredBookList, sortOption, sortDirection);
-        setFilteredBookList(sortedBooks);
-    };
+    // const handleSortBooks = () => {
+    //     const sortedBooks = sortBooks(filteredBookList, sortOption, sortDirection);
+    //     setFilteredBookList(sortedBooks);
+    // };
 
     const handleSubmit = (result: ResponseObject) => {
         if (result.success) {
@@ -41,27 +41,27 @@ export function useBookList() {
         }
     };
 
-    const handleSortOption = (e: React.MouseEvent<HTMLLIElement>) => {
-        const sortOption = e.currentTarget.textContent?.toLowerCase();
-        if (sortOption) {
-            setSortOption(sortOption);
-            setIsShowingTooltip(false);
-        } else {
-            // handle error...
-        }
-    };
+    // const handleSortOption = (e: React.MouseEvent<HTMLLIElement>) => {
+    //     const sortOption = e.currentTarget.textContent?.toLowerCase();
+    //     if (sortOption) {
+    //         setSortOption(sortOption);
+    //         setIsShowingTooltip(false);
+    //     } else {
+    //         // handle error...
+    //     }
+    // };
 
-    const handleSortDirection = () => {
-        setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
-    };
+    // const handleSortDirection = () => {
+    //     setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
+    // };
 
-    const onDelete = (result: ResponseObject) => {
-        if (result.success) getBooks();
-    };
+    // const onDelete = (result: ResponseObject) => {
+    //     if (result.success) getBooks();
+    // };
 
-    const onUpdate = (result: ResponseObject) => {
-        if (result.success) getBooks();
-    };
+    // const onUpdate = (result: ResponseObject) => {
+    //     if (result.success) getBooks();
+    // };
 
     useEffect(() => {
         getBooks();

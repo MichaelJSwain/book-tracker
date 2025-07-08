@@ -38,7 +38,6 @@ export const BookCard = ({ book, onDelete, onUpdate }: BookCardProps) => {
     }
 
     const handleShowForm = () => {
-        console.log("handling update");
         setIsShowingTooltip(false);
         setIsShowingForm(true);
     }

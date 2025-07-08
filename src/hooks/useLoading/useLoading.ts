@@ -13,7 +13,6 @@ export const useLoading = () => {
             const res = callback();
             return res;
         } catch(error) {
-            console.log("error: ", error);
             // if generic error, handle feedback here
             //....
             

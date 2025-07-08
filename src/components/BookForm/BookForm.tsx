@@ -24,45 +24,42 @@ interface BookFormProps {
 }
 
 export const BookForm = ({ action, submitFunc, initialValues = defaultValues, book }: BookFormProps) => {
-        const [formData, setFormData] = useState<FormData>(initialValues);
+    const [formData, setFormData] = useState<FormData>(initialValues);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const copy = {
-            ...formData
-        };
-        copy[e.target.name] = e.target.value;
-
-        setFormData(copy);
+        const { name, value } = e.target;
+         setFormData(prev => ({
+            ...prev,
+            [name as keyof FormData]: value
+        }));
     };
 
 
-        const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-            e.preventDefault();
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
 
-            const { title, author, status, imageUrl, number_of_pages } = formData;
-        
-            if (action === "create") {
-                console.log("create|");
-                const result = createBook(title, author, status, imageUrl, number_of_pages);
-                submitFunc(result);
-            } else if (action === "update") {
-                console.log("update|");
-                if (!!book) {
-                    const updatedBook = {
-                        ...book,
-                        title,
-                        author,
-                        status,
-                        imageUrl,
-                        number_of_pages
-                    }
-                    
-                    const result = updateBook(updatedBook);
-                    submitFunc(result);
+        const { title, author, status, imageUrl, number_of_pages } = formData;
+    
+        if (action === "create") {
+            const result = createBook(title, author, status, imageUrl, number_of_pages);
+            submitFunc(result);
+        } else if (action === "update") {
+            if (!!book) {
+                const updatedBook = {
+                    ...book,
+                    title,
+                    author,
+                    status,
+                    imageUrl,
+                    number_of_pages
                 }
+                
+                const result = updateBook(updatedBook);
+                submitFunc(result);
             }
-   
         }
+
+    }
 
     return (
             <form onSubmit={handleSubmit}>

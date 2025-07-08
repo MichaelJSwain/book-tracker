@@ -8,7 +8,6 @@ export const ClickAwayListener: React.FC<ClickAwayListenerProps> = ({ children, 
     // Handle click away
     const handleClickAway = (event: MouseEvent) => {
       if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-        console.log(event.target);
         onClickAway();
       }
     };

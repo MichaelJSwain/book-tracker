@@ -1,4 +1,3 @@
-import type { FormEventHandler, MouseEventHandler } from "react"
 import type { UUIDTypes } from "uuid"
 
 export type ReadingStatus = "to read" | "reading" | "read"
@@ -18,11 +17,6 @@ export type Book = {
         read_count: number
 }
 
-// export type CreateBookFormProps = {
-//         closeFunc: MouseEventHandler<HTMLButtonElement>,
-//         submitFunc: FormEventHandler<HTMLFormElement>
-// }
-
 export interface ClickAwayListenerProps {
   children: React.ReactNode;
   onClickAway: () => void;
@@ -39,7 +33,6 @@ export type FormData = {
     imageUrl: string,
     number_of_pages: number
 }
-// export default FormData
 
 export type SortDirection = "asc" | "desc";
 

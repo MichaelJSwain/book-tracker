@@ -15,7 +15,8 @@ import { Button } from "../components/Button/Button.tsx";
 import { PageHeader } from "../components/PageHeader/PageHeader.tsx";
 import { Modal } from "../components/Modal/Modal.tsx";
 import { useBookData } from "../hooks/useBookData.ts";
-import type { UIDrawerHandle, ResponseObject } from "../types/index.ts";{}
+import type { UIDrawerHandle, ResponseObject } from "../types/index.ts";import { EmptyView } from "../components/EmptyView/EmptyView.tsx";
+{}
 const portalElem = document.getElementById('portal') as HTMLElement;
 
 export const BookListView = () => {
@@ -82,6 +83,9 @@ export const BookListView = () => {
 
                     <BookList onDelete={onDelete} onUpdate={onUpdate} bookList={filteredBookList}></BookList>
                 </div>}
+
+            {(!isLoading && !filteredBookList.length) && 
+            <EmptyView></EmptyView>}
             
             {isShowingForm && createPortal(
                 <UIDrawer ref={uiDrawerRef} closeFunc={() => setIsShowingForm(false)} title="Create book">

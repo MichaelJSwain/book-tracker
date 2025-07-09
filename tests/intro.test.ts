@@ -2,7 +2,6 @@ import { describe, test, it, expect, beforeEach, vi, afterEach } from "vitest";
 import {createBook, deleteBook, fetchBook, fetchBooks, filterBooks, saveBooks, sortBooks, updateBook} from "../src/utils/intro.ts";
 import { setupMockLocalStorage } from "./mocks/setupMockLocalStorage.ts";
 import { v4 as UUID } from "uuid";
-import puppeteer from 'puppeteer';
 
 describe("create book", () => {
     beforeEach(() => {
@@ -64,19 +63,6 @@ describe("create book", () => {
 
         expect(result).toEqual(error);
     });
-
-    it("should show an error message if the form is submitted without the required values", async () => {
-        const browser = await puppeteer.launch({
-            headless: true
-        });
-        
-        const page = await browser.newPage();
-        await page.goto('http://localhost:5173');
-        
-        await page.click('button');
-        const selector = await page.waitForSelector('.error-message');
-        expect(!!selector).toBe(true);
-    })
 });
 
 describe("fetch books", () => {

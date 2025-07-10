@@ -65,4 +65,23 @@ test.describe("Book List Page", () => {
         await expect(card.locator('.tooltip-group')).toBeVisible();
       }
     });
+
+  test("should create a new book and add it to the list", async ({ page }) => {
+    await page.goto('http://localhost:5173');
+
+    const AddBookBtn = await page.getByRole('button', {name: 'Add book'});
+    await AddBookBtn.click();
+    await page.locator('input[name="title"]').fill("Strange Pictures");
+    await page.locator('input[name="author"]').fill("Uketsu");
+    await page.locator('input[name="status"]').fill("to read");
+    await page.locator('input[name="imageUrl"]').fill("https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1728787087i/216670080.jpg");
+    await page.locator('input[name="number_of_pages"]').fill("300");
+    await page.getByTestId('save-book-button').click();
+
+    await expect(page.locator('.book-card')).toBeVisible();
+    await expect(page.locator('.book-img')).toHaveAttribute('src', 'https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1728787087i/216670080.jpg');
+    await expect(page.locator('.status-label-icon [data-testid="icon-utility-wishlist-svg"]')).toBeVisible();
+    await expect(page.locator('.status-label-text')).toHaveText("To Read");
+    await expect(page.locator('.book-details')).toHaveText('Strange PicturesUketsu');
+  });
 });

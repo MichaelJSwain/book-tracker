@@ -174,4 +174,20 @@ test.describe("Book List Page", () => {
     await page.getByPlaceholder('Search for a book...').fill('XYZ');
     await expect(page.locator('.book-card')).toHaveCount(0);
   });
+
+  test("should sort books in ascending order based on selected sort option", async ({ page }) => {
+    await page.addInitScript((books) => {
+      localStorage.setItem("book_list", JSON.stringify(books));
+    }, mockBooks);
+
+    await page.goto('http://localhost:5173');
+    
+    const sortTooltip = await page.locator('.sort-controls .tooltip-group');
+    await sortTooltip.getByRole('button').click();
+    await sortTooltip.locator('.tooltip-item').nth(1).click();
+    
+    await expect(page.locator('.book-card').first().locator('.book-details')).toHaveText('DuneFrank Herbert');
+    await expect(page.locator('.book-card').nth(1).locator('.book-details')).toHaveText('The HobbitJ.R.R. Tolkien');
+    await expect(page.locator('.book-card').nth(2).locator('.book-details')).toHaveText('1984george orrwell');
+  });
 });

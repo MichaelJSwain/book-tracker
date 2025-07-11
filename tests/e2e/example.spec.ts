@@ -138,4 +138,40 @@ test.describe("Book List Page", () => {
 
     expect(hasUpdatedLocalStorage).toBeTruthy();
   });
+
+  test("should filter books by search query in input field an return 1 result", async ({ page }) => {
+    await page.addInitScript((books) => {
+      localStorage.setItem("book_list", JSON.stringify(books));
+    }, mockBooks);
+
+    await page.goto('http://localhost:5173');
+    await page.locator('.book-card');
+
+    await page.getByPlaceholder('Search for a book...').fill('Dune');
+    await expect(page.locator('.book-card')).toHaveCount(1);
+  });
+
+  test("should filter books by search query in input field an return 2 result", async ({ page }) => {
+    await page.addInitScript((books) => {
+      localStorage.setItem("book_list", JSON.stringify(books));
+    }, mockBooks);
+
+    await page.goto('http://localhost:5173');
+    await page.locator('.book-card');
+
+    await page.getByPlaceholder('Search for a book...').fill('H');
+    await expect(page.locator('.book-card')).toHaveCount(2);
+  });
+
+  test("should filter books by search query in input field an return 0 result", async ({ page }) => {
+    await page.addInitScript((books) => {
+      localStorage.setItem("book_list", JSON.stringify(books));
+    }, mockBooks);
+
+    await page.goto('http://localhost:5173');
+    await page.locator('.book-card');
+
+    await page.getByPlaceholder('Search for a book...').fill('XYZ');
+    await expect(page.locator('.book-card')).toHaveCount(0);
+  });
 });

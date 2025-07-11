@@ -190,4 +190,17 @@ test.describe("Book List Page", () => {
     await expect(page.locator('.book-card').nth(1).locator('.book-details')).toHaveText('The HobbitJ.R.R. Tolkien');
     await expect(page.locator('.book-card').nth(2).locator('.book-details')).toHaveText('1984george orrwell');
   });
+
+  test("should sort books in descending order based on title", async ({ page }) => {
+    await page.addInitScript((books) => {
+      localStorage.setItem("book_list", JSON.stringify(books));
+    }, mockBooks);
+
+    await page.goto('http://localhost:5173');
+
+    await page.locator('.sort-controls button').nth(1).click();
+    await expect(page.locator('.book-card').nth(0).locator('.book-details')).toHaveText('The HobbitJ.R.R. Tolkien');
+    await expect(page.locator('.book-card').nth(1).locator('.book-details')).toHaveText('DuneFrank Herbert');
+    await expect(page.locator('.book-card').nth(2).locator('.book-details')).toHaveText('1984george orrwell');
+  });
 });

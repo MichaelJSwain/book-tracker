@@ -95,4 +95,47 @@ test.describe("Book List Page", () => {
       expect(pageDetails.bookCount).toBe(2);
       expect(pageDetails.isBookDeleted).toBeTruthy();
   });
+
+  test("should update a book", async ({ page }) => {
+    await page.addInitScript((books) => {
+      localStorage.setItem("book_list", JSON.stringify(books));
+    }, mockBooks);
+
+    await page.goto('http://localhost:5173');
+
+    const bookCards = await page.locator('.book-card');
+    const firstCard = await bookCards.first();
+
+    await firstCard.getByRole('button').click();
+    await firstCard.locator('.tooltip-item').first().click();
+
+    await page.locator('input[name="title"]').fill('2025');
+    await page.locator('input[name="author"]').fill('George Orwell');
+    await page.locator('input[name="status"]').fill('Read');
+    await page.locator('input[name="imageUrl"]').fill('https://m.media-amazon.com/images/I/31MC-vg8ShL._UF1000,1000_QL80_.jpg');
+    await page.locator('input[name="number_of_pages"]').fill('300');
+    await page.getByTestId('save-book-button').click();
+
+    await expect(firstCard.locator('.book-details')).toHaveText(`2025George Orwell`);
+    await expect(firstCard.locator('.number-of-pages')).toHaveText('300 pages');
+    await expect(firstCard.locator('.book-img')).toHaveAttribute('src', 'https://m.media-amazon.com/images/I/31MC-vg8ShL._UF1000,1000_QL80_.jpg');
+
+    const hasUpdatedLocalStorage = await page.evaluate(() => {
+      const book = JSON.parse(localStorage.getItem("book_list") || '[]')[0];
+      console.log("ls book = ", book);
+
+      if (
+          book.title === "2025" && 
+          book.author === "George Orwell" &&
+          book.status === "Read" &&
+          book.imageUrl === "https://m.media-amazon.com/images/I/31MC-vg8ShL._UF1000,1000_QL80_.jpg" &&
+          book.number_of_pages === "300"
+        ) {
+        return true
+      }
+      return false;
+    });
+
+    expect(hasUpdatedLocalStorage).toBeTruthy();
+  });
 });

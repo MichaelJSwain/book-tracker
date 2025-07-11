@@ -69,8 +69,8 @@ export const BookCard = ({ book, onDelete, onUpdate }: BookCardProps) => {
                     <div>{book.author}</div>
                 </div>
                 
-                <div>
-                    {`${book.rating}`}
+                <div className="number-of-pages">
+                    {`${book.number_of_pages} pages`}
                 </div>
 
             </div>

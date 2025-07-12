@@ -52,7 +52,7 @@ export const fetchBooks = (): ResponseObject => {
         const books = localStorage.getItem(BOOKS_KEY);
         if (books) {
             const parsed = JSON.parse(books);
-            return {data: [], success: true, message: "Successfully fetched books"};
+            return {data: parsed, success: true, message: "Successfully fetched books"};
         }
         return {data: [], success: true, message: "Successfully fetched books"};
     } catch(error) {

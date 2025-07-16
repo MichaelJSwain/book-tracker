@@ -1,4 +1,4 @@
-name: first workflow
+name: Continuous Integration workflow_dispatch
 
 on:
   push:

@@ -1,8 +1,6 @@
 // useBookList.ts
 import { useState, useRef } from "react";
-import { fetchBooks, filterBooks, sortBooks } from "../utils/intro";
-import { useLoading } from "../hooks/useLoading/useLoading.ts";
-import type { Book, ResponseObject, SortDirection, UIDrawerHandle } from "../types/index";
+import type { ResponseObject, UIDrawerHandle } from "../types/index";
 
 interface UseBookListProps {
     refresh: () => Promise<void>
@@ -10,7 +8,7 @@ interface UseBookListProps {
 
 export function useBookList({ refresh }: UseBookListProps) {
     const [isShowingError, setIsShowingError] = useState(false);
-    const [isShowingTooltip, setIsShowingTooltip] = useState<Boolean>(false);
+    const [isShowingTooltip, setIsShowingTooltip] = useState<boolean>(false);
     const uiDrawerRef = useRef<UIDrawerHandle>(null);
 
     const handleSubmit = (result: ResponseObject) => {

@@ -23,3 +23,17 @@ jobs:
       - name: run tests
         run: npm run test
         shell: bash
+
+  lint:
+    name: 'Run linter'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        name: checkout code
+
+      - name: install dependencies
+        run: npm install
+        shell: bash
+      
+      - name: 'Run linter'
+        run: npx eslint

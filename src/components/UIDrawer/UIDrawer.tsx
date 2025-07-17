@@ -43,3 +43,5 @@ export const UIDrawer = forwardRef<UIDrawerHandle, UIDrawerProps>(
         )
     }
 )
+
+UIDrawer.displayName = 'UIDrawer'; 

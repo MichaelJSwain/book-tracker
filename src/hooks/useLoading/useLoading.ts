@@ -12,11 +12,11 @@ export const useLoading = () => {
         try {
             const res = callback();
             return res;
-        } catch(error) {
+        } catch {
             // if generic error, handle feedback here
             //....
             
-            return { data: null, success: false, message: `unable to get books. ${error}` };
+            return { data: null, success: false, message: "unable to get books." };
         } finally {
             setIsLoading(false);
         }

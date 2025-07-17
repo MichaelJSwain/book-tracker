@@ -72,7 +72,7 @@ test.describe("Book List Page", () => {
 
       await page.goto('http://localhost:5173');
 
-      await page.locator('.book-card').count() === 3;
+      await expect(page.locator('.book-card')).toHaveCount(3);
       await page.locator('.book-card').first().getByRole('button', {name: "..."}).click();
       await page.locator('.tooltip-item').nth(1).click();
 

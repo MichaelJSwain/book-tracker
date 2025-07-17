@@ -158,7 +158,7 @@ export const sortBooks = (books: Book[], sortOption: string, sortDirection: Sort
     return books;
 }
 
-const compareFn = (a: String | Number, b: String | Number, sortDirection: string): number => {
+const compareFn = (a: string | number, b: string | number, sortDirection: string): number => {
     if (a < b) {
         return sortDirection === "asc" ? -1 : 1;
     } else if (a > b) {

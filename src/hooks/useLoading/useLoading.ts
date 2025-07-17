@@ -16,7 +16,7 @@ export const useLoading = () => {
             // if generic error, handle feedback here
             //....
             
-            return { data: null, success: false, message: "unable to get books" };
+            return { data: null, success: false, message: `unable to get books. ${error}` };
         } finally {
             setIsLoading(false);
         }

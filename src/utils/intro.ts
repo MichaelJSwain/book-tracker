@@ -56,7 +56,7 @@ export const fetchBooks = (): ResponseObject => {
         }
         return {data: [], success: true, message: "Successfully fetched books"};
     } catch(error) {
-        return {success: false, message: "Failed to fetch books"};
+        return {success: false, message: `Failed to fetch books ${error}`};
     }
 
 }
@@ -116,7 +116,7 @@ export const saveBooks = (books: Book[]): ResponseObject => {
             localStorage.setItem(BOOKS_KEY, JSON.stringify(books));
             return { success: true, message: 'Books saved successfully.' };
         } catch(error) {
-            return {success: false, message: "Failed to save books to localStorage."};
+            return {success: false, message: `Failed to save books to localStorage. ${error}`};
         }
     } else {
         return {success: false, message: "Invalid input: expected an array of books."};

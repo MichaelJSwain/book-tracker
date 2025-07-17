@@ -1,4 +1,4 @@
-import { describe, test, it, expect, beforeEach, vi, afterEach } from "vitest";
+import { describe, it, expect, beforeEach, vi, afterEach } from "vitest";
 import {createBook, deleteBook, fetchBook, fetchBooks, filterBooks, saveBooks, sortBooks, updateBook} from "../src/utils/intro.ts";
 import { setupMockLocalStorage } from "./mocks/setupMockLocalStorage.ts";
 import { v4 as UUID } from "uuid";
@@ -114,7 +114,7 @@ describe("fetch a single book", () => {
 
     it("should return an object with a message if the book is not found in localStorage", () => {
         // arrange
-        const noBookFoundResponse = {message: "Sorry, couldn't find book"};
+        const noBookFoundResponse = { success: false, message: "Unable to fetch book" };
         const bookId = UUID();
         const books = [{id: UUID(), title: 'book 1', author: 'dave smith', status: 'reading', imageUrl: null, number_of_pages: 100},
             {id: UUID(), title: 'book 2', author: 'sarah simon', status: 'reading', imageUrl: null, number_of_pages: 100}
@@ -125,16 +125,16 @@ describe("fetch a single book", () => {
         const result = fetchBook(bookId);
 
         // assert
-        expect(result).toEqual({ success: false, message: "Unable to fetch book"});
+        expect(result).toEqual(noBookFoundResponse);
     });
 
     it("should return an object with a message if there are no books in localStorage", () => {
-        const noBooksFoundResponse = { message: "Sorry, couldn't find book" };
+        const noBooksFoundResponse = { success: false, message: "Unable to fetch book" };
         const bookId = UUID();
 
         const result = fetchBook(bookId);
 
-        expect(result).toEqual({ success: false, message: "Unable to fetch book"});
+        expect(result).toEqual(noBooksFoundResponse);
     });
 });
 

@@ -21,7 +21,7 @@ const portalElem = document.getElementById('portal') as HTMLElement;
 
 export const BookListView = () => {
     const [isShowingError, setIsShowingError] = useState(false);
-    const [isShowingTooltip, setIsShowingTooltip] = useState<Boolean>(false);
+    const [isShowingTooltip, setIsShowingTooltip] = useState<boolean>(false);
     const uiDrawerRef = useRef<UIDrawerHandle>(null);
     const [isShowingForm, setIsShowingForm] = useState(false);
 

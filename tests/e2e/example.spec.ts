@@ -122,7 +122,6 @@ test.describe("Book List Page", () => {
 
     const hasUpdatedLocalStorage = await page.evaluate(() => {
       const book = JSON.parse(localStorage.getItem("book_list") || '[]')[0];
-      console.log("ls book = ", book);
 
       if (
           book.title === "2025" && 

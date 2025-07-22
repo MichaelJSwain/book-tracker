@@ -88,7 +88,7 @@ export const BookListView = () => {
             <EmptyView></EmptyView>}
             
             {isShowingForm && createPortal(
-                <UIDrawer ref={uiDrawerRef} closeFunc={() => setIsShowingForm(false)} title="Create book">
+                <UIDrawer ref={uiDrawerRef} closeFunc={() => setIsShowingForm(false)} title="Add a book">
                     <BookForm action="create" submitFunc={(result) => handleSubmit(result)}></BookForm>
                 </UIDrawer>, 
                 portalElem)

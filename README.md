@@ -1,5 +1,15 @@
 ![Build Status](https://github.com/MichaelJSwain/book-tracker/actions/workflows/ci.yml/badge.svg)
 
+[![pages-build-deployment](https://github.com/MichaelJSwain/book-tracker/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/MichaelJSwain/book-tracker/actions/workflows/pages/pages-build-deployment)
+
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+
+![Vitest](https://img.shields.io/badge/-Vitest-252529?style=for-the-badge&logo=vitest&logoColor=FCC72B)
+
+![Playwright](https://img.shields.io/badge/-playwright-%232EAD33?style=for-the-badge&logo=playwright&logoColor=white)
+
 # React + TypeScript + Vite 
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
